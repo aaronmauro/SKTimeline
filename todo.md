@@ -7,13 +7,13 @@
 ----
 ## Overview
 
-The goal of the next few months of development will be to use the Python API wrappers to draw data from Twitter, Slack, and Github into a unified JSON file. The JSON file must be compatible with the [TimelineJS](https://timeline.knightlab.com) format available [here](https://timeline.knightlab.com/docs/json-format.html). Once we are drawing data down in real time and updating each users JSON file, we will need to build an <iframe> generator that will render the timeline for each user outside the platform.  The [Github page for TimelineJS](https://github.com/NUKnightLab/TimelineJS3) provides all the code and examples needed for this. 
+<p>The goal of the next few months of development will be to use the Python API wrappers to draw data from Twitter, Slack, and Github into a unified JSON file. The JSON file must be compatible with the [TimelineJS](https://timeline.knightlab.com) format available [here](https://timeline.knightlab.com/docs/json-format.html). Once we are drawing data down in real time and updating each users JSON file, we will need to build an <iframe> generator that will render the timeline for each user outside the platform.  The [Github page for TimelineJS](https://github.com/NUKnightLab/TimelineJS3) provides all the code and examples needed for this.</p>
 
-As you can already tell, this is a Python3 project. We are using Python for a couple of reasons. It allows for a seamless linking between these services and it makes handling JSON much easier. [Python's JSON module](https://docs.python.org/3.5/library/json.html) makes JSON into Python lists and dictionaries, making the transition pretty simple. 
+<p>As you can already tell, this is a Python3 project. We are using Python for a couple of reasons. It allows for a seamless linking between these services and it makes handling JSON much easier. [Python's JSON module](https://docs.python.org/3.5/library/json.html) makes JSON into Python lists and dictionaries, making the transition pretty simple.</p>
 
-If you haven't done so, go back to the development server and log into the system. You'll see some of the functionality of the site and a sample timeline on the Dashboard. 
+<p>If you haven't done so, go back to the development server and log into the system. You'll see some of the functionality of the site and a sample timeline on the Dashboard.</p>
 
-Our first task will be to draw data from these services: 
+<p>Our first task will be to draw data from these services:</p>
 
 ## Twitter 
 
