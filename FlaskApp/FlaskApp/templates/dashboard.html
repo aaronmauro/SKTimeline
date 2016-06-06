@@ -1,0 +1,64 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+
+            <div class="inner cover" style="margin-top:15%;">
+
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#slack" aria-controls="slack" role="tab" data-toggle="tab">Slack</a></li>
+    <li role="presentation"><a href="#github" aria-controls="github" role="tab" data-toggle="tab">GitHub</a></li>
+    <li role="presentation"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
+
+  </ul>
+
+  <!-- Slack -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="slack">
+      Slack Settings
+      <div>
+	   {% for t in TOPIC_DICT["Slack Settings"] %}
+	     <a href="{{t[1]}}">{{t[0]}}</a>
+	   {% endfor %}
+      </div>
+  </div>
+  <!-- GitHub -->
+  <div role="tabpanel" class="tab-pane fade" id="github">
+      GitHub Settings
+     <div>
+	   {% for t in TOPIC_DICT["Github Settings"] %}
+	     <a href="{{t[1]}}">{{t[0]}}</a>
+	   {% endfor %}
+      </div>
+    </div>
+<!-- Twitter -->
+  <div role="tabpanel" class="tab-pane fade" id="twitter">
+      Twitter Settings
+      <div>
+	   {% for t in TOPIC_DICT["Twitter Settings"] %}
+	     <a href="{{t[1]}}">{{t[0]}}</a>
+	   {% endfor %}
+      </div>
+    </div>
+</div>
+</div>
+
+                <br>
+                <hr>
+                <br>
+                
+<!-- Timeline -->
+                <div style="margin-bottom:15%;" class="well well-lg">
+                    <p class="lead">Sample Timeline</p>
+ <div class="embed-responsive embed-responsive-4by3">
+  <iframe class="embed-responsive-item" scrolling="no" src="//cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Pvtus2tsuK09oGLmX22UQhCVeYczGSnAVf1Eis9Yjqw&font=Default&lang=en&initial_zoom=2&height=650"></iframe>
+</div>
+                </div>
+                
+</div>
+            
+
+{% endblock %}

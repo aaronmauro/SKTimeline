@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{ url_for('static', filename='media/favicon.ico')}}">
+
+    <title>SKTimeline</title>
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css')}}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+      
+  </head>
+
+  <body>
+      
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+                <!-- Brand Logo
+                  <a class="navbar-brand" href="/">
+                      <img height="30" width="20" alt="Skittle Logo" src="{{ url_for('static', filename='media/skittle.png')}}">
+                      </a>
+                   Brand Logo END -->
+              <h3 class="masthead-brand"><small> SKTimeline </small></h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a href="/login/">Login</a></li>
+                    </ul>
+              </nav>
+            </div>
+          </div>
+            
+          <div class="inner cover">
+
+<div class="border-row" style="width=100%; margin-bottom:5%;">
+              
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible" role="alert">{{message}}
+		      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %} 
+              
+</div>
+              <div class="container-fluid">
+    
+    {% block body %}{% endblock %}
+         
+              </div>       
+            </div>
+              
+              
+ 
+              
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Developed for the <a href="http://sites.psu.edu/psudhlab">Penn State Digital Humanities Lab</a>, by <a href="https://twitter.com/onthename">@onthename</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+</div>   
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+      
+    <!-- Viewport Bug Workaround --> 
+        <script type="text/javascript" src="{{ url_for('static', filename='js/viewport-bug-workaround.js')}}"></script>
+      
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='js/jquery.js') }}">\x3C/script>')</script>
+        
+      
+<!-- Latest compiled and minified JavaScript -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+    
+  </body>
+</html>
