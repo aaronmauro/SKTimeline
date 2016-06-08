@@ -1,9 +1,6 @@
 # To Do List
-----
-This todo list is intended for the development team at Penn State's TLT Brad Kozlek, Nick Rossi, and Jared Wenerd. We'll be using this page to monitor and assess tasks in the development of the SKTimeline. For anyone observing the development of the project, this page might serve as a guide to our development and future directions. So, without further ado...
 
-- [X] Make todo list. 
-
+This todo list is intended for the development team at Penn State's TLT Brad Kozlek, Nick Rossi, and Jared Wenerd. We'll be using this page to monitor and assess tasks in the development of the SKTimeline. For anyone observing the development of the project, this page might serve as a guide to our development and future directions. 
 
 ## Overview
 
@@ -19,7 +16,7 @@ Our first task will be to draw data from these services:
 
 [Tweepy](http://tweepy.readthedocs.io/en/v3.5.0/) currently offers the best support for the Twitter APIs. It supports OAuth and streaming, which is something we'll need. The Hello World for Tweepy goes something like this:
 
-''' 
+'
 import tweepy
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -30,7 +27,7 @@ api = tweepy.API(auth)
 public_tweets = api.home_timeline()
 for tweet in public_tweets:
     print tweet.text
-'''
+'
 
 We'll need to add support for hashtags and user handles as well. 
 
