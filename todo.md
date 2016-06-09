@@ -37,6 +37,20 @@ Then we'll need to package this up into TimelineJS JSON format. TimelineJS does 
 
 Slack should be similarly straight forward. The goal is to draw down Slack messages by channel and group. We will then reformat Slack messages to be included in the timeline. We may have to develop some basic logic for how to split or shorten messages here. There are two API modules for Slack: [Slacker](https://github.com/os/slacker) and [Slackclient](https://github.com/slackhq/python-slackclient). I'm frankly not sure which one is the best choice here, but I think Slacker is slightly more popular and will likely have more support and examples. 
 
+<pre>
+import time
+from slackclient import SlackClient
+
+token = "xoxp-12290504098-12327505654-49613387779-6de128b8f9 " #feel free to use this test token
+sc = SlackClient(token)
+if sc.rtm_connect():
+    while True:
+        print (sc.rtm_read())
+        time.sleep(1)
+else:
+    print ("Connection Failed, invalid token?")
+</pre>
+
 ### Github
 
 Github has several wrappers for the its API. The [GitPython](https://github.com/gitpython-developers/GitPython) module seems to be the best, but there are [PyGithub](https://github.com/PyGithub/PyGithub) or [PyGithub3](http://pygithub3.readthedocs.io/en/latest/). There may even be a simpler way to do this with [urllib](https://docs.python.org/3/howto/urllib2.html). In fact, I think [requests](https://github.com/kennethreitz/requests) could be even easier. Here is the [full documentation](http://docs.python-requests.org/en/master/).
@@ -44,9 +58,26 @@ Github has several wrappers for the its API. The [GitPython](https://github.com/
 We are interested in collecting Commit Messages, Usernames, Dates, and Times. These will be formatted much like the Slack messages, but we'll have explicit links to a moment in the project's development through version control.
 
 <pre>
+import requests
+#requesting user info
+r = requests.get('https://api.github.com/user', auth=('user', 'pass'))
 
+print (r.status_code)
+print (r.headers['content-type'])
+print (r.headers['X-RateLimit-Limit'])
+
+#getting json events from GitHub
+r2 = requests.get('https://api.github.com/events') #this is the github firehose of data for testing
+
+print(r2.url)
+
+print(r2.status_code)
+
+print(r2.history)
+
+print(r2.text)
 </pre)
 
 ### Merging
 
-We'll need to have a mechanism for merging these sources as they come in. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. 
+We will need to have a mechanism for merging these sources as they come in. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. 
