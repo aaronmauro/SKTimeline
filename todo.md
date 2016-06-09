@@ -58,16 +58,15 @@ Github has several wrappers for the its API. The [GitPython](https://github.com/
 We are interested in collecting Commit Messages, Usernames, Dates, and Times. These will be formatted much like the Slack messages, but we'll have explicit links to a moment in the project's development through version control.
 
 <pre>
-import requests
-#requesting user info
-r = requests.get('https://api.github.com/user', auth=('user', 'pass'))
+import requests 
+
+r = requests.get('https://api.github.com/user', auth=('user', 'pass')) #requesting user info
 
 print (r.status_code)
 print (r.headers['content-type'])
 print (r.headers['X-RateLimit-Limit'])
 
-#getting json events from GitHub
-r2 = requests.get('https://api.github.com/events') #this is the github firehose of data for testing
+r2 = requests.get('https://api.github.com/events') #getting json events from GitHub. p.s. this is the github firehose of data for testing 
 
 print(r2.url)
 
