@@ -66,16 +66,12 @@ print (r.status_code)
 print (r.headers['content-type'])
 print (r.headers['X-RateLimit-Limit'])
 
-r2 = requests.get('https://api.github.com/events') #getting json events from GitHub. p.s. this is the github firehose of data for testing 
-
+r2 = requests.get('https://api.github.com/events') #getting json events from GitHub. p.s. this is the github firehose of data for testing
 print(r2.url)
-
 print(r2.status_code)
-
 print(r2.history)
-
 print(r2.text)
-</pre)
+</pre>
 
 ### Merging
 
