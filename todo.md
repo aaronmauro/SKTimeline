@@ -75,4 +75,4 @@ print(r2.text)
 
 ### Merging
 
-We will need to have a mechanism for merging these sources as they come in. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. 
+We will need to have a mechanism for merging these sources as they come in. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. Here is a good reference for [Crontab jobs](http://www.adminschoice.com/crontab-quick-reference)
