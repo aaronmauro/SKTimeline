@@ -4,7 +4,7 @@ This todo list is intended for the development team at Penn State's TLT. We'll b
 
 ### Overview
 
-The goal of the next few months of development will be to use the Python API wrappers to draw data from Twitter, Slack, and Github into a unified JSON file. The JSON file must be compatible with the [TimelineJS](https://timeline.knightlab.com) format available [here](https://timeline.knightlab.com/docs/json-format.html). Once we are drawing data down in real time and updating each users JSON file, we will need to build an <iframe> generator that will render the timeline for each user outside the platform. The [Github page for TimelineJS](https://github.com/NUKnightLab/TimelineJS) provides all the code and examples needed for this.
+The goal of the next few months of development will be to use the Python API wrappers to draw data from Twitter, Slack, and Github into a unified JSON file. The JSON file must be compatible with the [TimelineJS](https://timeline.knightlab.com) format available [here](https://timeline.knightlab.com/docs/json-format.html). Once we are drawing data down in real time and updating each users JSON file, we will need to build an iframe generator that will render the timeline for each user outside the platform. The [Github page for TimelineJS](https://github.com/NUKnightLab/TimelineJS) provides all the code and examples needed for this.
 
 As you can already tell, this is a Python3 project. We are using Python for a couple of reasons. It allows for a seamless linking between these services and it makes handling JSON much easier. [Python's JSON module](https://docs.python.org/3.5/library/json.html) makes JSON into Python lists and dictionaries, making the transition pretty simple.
 
@@ -39,9 +39,13 @@ Slack should be similarly straight forward. The goal is to draw down Slack messa
 
 ### Github
 
-Github has several wrappers for the its API. The [GitPython](https://github.com/gitpython-developers/GitPython) module seems to be the best, but there are [PyGithub](https://github.com/PyGithub/PyGithub) or [PyGithub3](http://pygithub3.readthedocs.io/en/latest/). There may even be a simpler way to do this with [urllib](https://docs.python.org/3/howto/urllib2.html).
+Github has several wrappers for the its API. The [GitPython](https://github.com/gitpython-developers/GitPython) module seems to be the best, but there are [PyGithub](https://github.com/PyGithub/PyGithub) or [PyGithub3](http://pygithub3.readthedocs.io/en/latest/). There may even be a simpler way to do this with [urllib](https://docs.python.org/3/howto/urllib2.html). In fact, I think [requests](https://github.com/kennethreitz/requests) could be even easier. Here is the [full documentation](http://docs.python-requests.org/en/master/).
 
-We are interested in collecting Commit Messages, Usernames, Dates, and Times. These will be formatted much like the Slack messages, but we'll have explicit links to a moment in the project's development through version control. 
+We are interested in collecting Commit Messages, Usernames, Dates, and Times. These will be formatted much like the Slack messages, but we'll have explicit links to a moment in the project's development through version control.
+
+<pre>
+
+</pre)
 
 ### Merging
 
