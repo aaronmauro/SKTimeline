@@ -77,4 +77,4 @@ print(r2.text)
 
 ### Merging
 
-We will need to have a mechanism for merging these sources as they come in. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. Here is a good reference for [Crontab jobs](http://www.adminschoice.com/crontab-quick-reference)
+We will need to have a mechanism for merging these sources into a unified TimelineJS JSON file. We'll need to handle these requests and push them out in real time. The Crontab function in Flask will allow us to handle some of this, but there might be a better solution. Here is a good reference for [Crontab jobs](http://www.adminschoice.com/crontab-quick-reference). The system uses [Requests Sessions](http://docs.python-requests.org/en/master/user/advanced/) for cookies and establishing a persistent instance for each user. Maybe sessions has a way to stream all this without a need for batching them with crontab? 
