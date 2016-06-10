@@ -119,6 +119,7 @@ def login_page():
         return render_template("login.html", error = error)  
 
 #Terms of Service Page
+@app.route('/tos/')
 def tos():
     return render_template("tos.html")
 
@@ -129,8 +130,6 @@ class RegistrationForm(Form):
     password = PasswordField('New Password', [validators.Required(), validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept the <a href="/tos/" target="_blank">Terms of Service and Privacy Notice</a>', [validators.Required()])
-    
-@app.route('/tos/')
 
 #Registration Page                          
 @app.route('/register/', methods=["GET","POST"])
