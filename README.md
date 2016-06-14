@@ -38,7 +38,7 @@ Activate virtual enviroment **not sure needed yet\**
 
 Install needed packages:
 
-`pip install MySQL-python wtforms flask_mail passlib`
+`pip install Flask MySQL-python wtforms flask_mail passlib`
 
 Start server
 
