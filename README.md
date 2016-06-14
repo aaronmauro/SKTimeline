@@ -13,3 +13,34 @@
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Twitter_logo.svg/2000px-Twitter_logo.svg.png" width="200">
 ##### Twitter does a lot of things. It can tell the world what you had for lunch, or it can inform your teams of trends and issues happening right now! Link hashtags and user handles directly into your development timeline.
+
+## OS X Development Setup Instructions 
+
+Install MySQL Server
+
+`brew install mysql`
+
+Install python verions 2.7
+
+`brew install python`
+
+Install virtualenv **not sure needed yet\**
+
+`pip install virtualenv` 
+
+Go to project application folder 
+
+`cd FlaskApp/FlaskApp`
+
+Activate virtual enviroment **not sure needed yet\**
+
+`source venv/bin/activate`
+
+Install needed packages:
+
+`pip install MySQL-python wtforms flask_mail passlib`
+
+Start server
+
+`python __init__.py` 
+
