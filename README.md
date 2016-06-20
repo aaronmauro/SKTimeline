@@ -28,9 +28,9 @@ Install virtualenv
 
 `pip install virtualenv` 
 
-Go to project application folder 
+Go to application project folder 
 
-`cd FlaskApp/FlaskApp`
+`cd project`
 
 Activate the virtual enviroment
 
@@ -54,6 +54,6 @@ Start development server
 
 or alternatively run the Flask interactive console
 
-`bin/flask  shell`
+`bin/flask shell`
 
 
