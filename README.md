@@ -44,9 +44,16 @@ Install needed packages
 
 `bin/pip install Flask MySQL-python wtforms flask_mail passlib`
 
-Start server
+Setup Flask enviroment
 
-`python __init__.py` 
+`export FLASK_APP=__init__.py`
 
-TODO: document bin/flask cli option... currenetly not working
+Start development server
+
+`bin/flask run` 
+
+or alternatively run the Flask interactive console
+
+`bin/flask  shell`
+
 
