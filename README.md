@@ -24,7 +24,7 @@ Install python verions 2.7
 
 `brew install python`
 
-Install virtualenv **not sure needed yet\**
+Install virtualenv
 
 `pip install virtualenv` 
 
@@ -32,15 +32,21 @@ Go to project application folder
 
 `cd FlaskApp/FlaskApp`
 
-Activate virtual enviroment **not sure needed yet\**
+Activate the virtual enviroment
 
-`source venv/bin/activate`
+`virtualenv --no-site-packages .`
 
-Install needed packages:
+Activate the virtual enviroment:
 
-`pip install Flask MySQL-python wtforms flask_mail passlib`
+`source bin/activate`
+
+Install needed packages
+
+`bin/pip install Flask MySQL-python wtforms flask_mail passlib`
 
 Start server
 
 `python __init__.py` 
+
+TODO: document bin/flask cli option... currenetly not working
 
