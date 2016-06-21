@@ -14,3 +14,5 @@ DB_HOST='localhost'
 DB_USER='root'
 DB_PASSWORD='pennstateerie4'
 DB_NAME='sktimeline'
+
+SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/sktimeline'

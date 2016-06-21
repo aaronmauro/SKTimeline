@@ -10,13 +10,16 @@ from passlib.hash import sha256_crypt
 from MySQLdb import escape_string as thwart
 from functools import wraps
 
-
 from flask import Flask, render_template, flash, request, url_for, redirect, session
+from flask_sqlalchemy import SQLAlchemy
+
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
 app.config.from_pyfile( os.path.join( os.path.dirname(__file__) , '../instance/config.py') )
 
+db = SQLAlchemy(app)
 
+from sktimeline import models
 from dbconnect import connection
 
 #mail config for confirmation message
