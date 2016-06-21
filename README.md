@@ -31,7 +31,7 @@ Clone this repository, change directories to project working directory, then set
 
 ```
 git clone REPOSITORY_URL_GOES_HERE
-cd project
+cd sktimeline
 virtualenv --no-site-packages .
 source bin/activate
 ```

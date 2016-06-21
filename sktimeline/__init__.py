@@ -1,20 +1,26 @@
 #This is a web app built with the Flask framework based on Jinja templating: http://flask.pocoo.org
-
-from flask import Flask, render_template, flash, request, url_for, redirect, session
-from content_management import Content
 import os
+import gc
+from flask import Flask, render_template, flash, request, url_for, redirect, session
+from flask_sqlalchemy import SQLAlchemy
+from content_management import Content
 from dbconnect import connection
 from wtforms import Form, BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
 from flask_mail import Mail, Message
 from passlib.hash import sha256_crypt
 from MySQLdb import escape_string as thwart
 from functools import wraps
-import gc
 
 #Content() is defined in content_management.py
 TOPIC_DICT = Content()
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
+
+from models.user import *
+
+
 
 #mail config for confirmation message
 app.config.update(
@@ -61,8 +67,8 @@ def sitemap():
                 pages.append(["http://162.243.121.195/"+str(rule.rule),ten_days_ago])
         sitemap_xml = render_template('sitemap_template.xml', pages=pages)
         response= make_response(sitemap_xml)
-        response.headers["Content-Type"] = "application/xml"    
-    
+        response.headers["Content-Type"] = "application/xml"
+
         return response
     except Exception as e:
         return(str(e))
@@ -98,16 +104,16 @@ def login_page():
             data = c.execute("SELECT * FROM users WHERE username = (%s)",
                             thwart(request.form['username']))
             data = c.fetchone()[2]
-            
+
             if sha256_crypt.verify(request.form['password'], data):
                 session['logged_in'] = True
                 session['username'] = request.form['username']
-                
+
                 flash("You are now logged in!")
                 return redirect(url_for("dashboard"))
             else:
                 error = "Invalid creditials, try again."
-            
+
             gc.collect()
             return render_template(login.html, error=error)
 
@@ -116,7 +122,7 @@ def login_page():
     except Exception as e:
         #flash(e)
         error = "Invalid credentials, try again."
-        return render_template("login.html", error = error)  
+        return render_template("login.html", error = error)
 
 #Terms of Service Page
 @app.route('/tos/')
@@ -131,30 +137,30 @@ class RegistrationForm(Form):
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept the <a href="/tos/" target="_blank">Terms of Service and Privacy Notice</a>', [validators.Required()])
 
-#Registration Page                          
+#Registration Page
 @app.route('/register/', methods=["GET","POST"])
 def register_page():
-    try: 
+    try:
         form = RegistrationForm(request.form)
-        
+
         if request.method == "POST" and form.validate():
             username = form.username.data
             email = form.email.data
             password = sha256_crypt.encrypt((str(form.password.data)))
             c, conn = connection()
-            
-            x = c.execute("SELECT * FROM users WHERE username = (%s)", 
+
+            x = c.execute("SELECT * FROM users WHERE username = (%s)",
                           (thwart(username)))
             if int(x) > 0:
                 flash("Password already in use. Please choose another.")
                 return render_template('register.html', form=form)
-            else: 
+            else:
                 c.execute("INSERT INTO users (username, passwords, email, tracking) VALUES (%s, %s, %s, %s)",(thwart(username), thwart(password), thwart(email), thwart("/homepage/")))
 
-# /homepage/ is where the user will be sent after a failed registration. You could forward to an intro to site functionality too. 
-                
+# /homepage/ is where the user will be sent after a failed registration. You could forward to an intro to site functionality too.
+
                 conn.commit()
-                flash("Thanks for registering! Confirmation email sent.")                
+                flash("Thanks for registering! Confirmation email sent.")
                 c.close()
                 conn.close()
                 gc.collect() #garbage collection to reduce memory use.
@@ -165,15 +171,15 @@ def register_page():
                 msg.body = "Hi there, "+username+"!\nThis system is still in active development. By registering, you'll recieve notifications about availability and new functionality!\n Thanks for your interest in SKTimeline,\nAaron"
                 mail.send(msg)
                 return redirect(url_for('dashboard'))
-                #this will redirect to dashboard page to begin use. 
+                #this will redirect to dashboard page to begin use.
 
         return render_template("register.html", form=form)
 
     except Exception as e:
-        return(str(e)) 
+        return(str(e))
         #Error is here for debugging process. Remove once project is completed.
 
-#Contact Form Class ..Not in Use.. The main page uses a mailto in HTML.        
+#Contact Form Class ..Not in Use.. The main page uses a mailto in HTML.
 class ContactForm(Form):
 	firstName = TextField('First Name', [validators.DataRequired("Enter your first name")])
 	lastName = TextField('Last Name', [validators.DataRequired("Enter your last name")])
@@ -181,7 +187,7 @@ class ContactForm(Form):
 	subject = TextField('Subject', [validators.DataRequired("What's the nature of your message?")])
 	message = TextAreaField('Message', [validators.DataRequired("Didn't you want to say something?")])
 	submit = SubmitField('Send')
-        
+
 @app.route('/contact/', methods=('GET', 'POST'))
 def contact():
 	form = ContactForm()
