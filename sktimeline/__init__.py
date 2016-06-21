@@ -2,7 +2,6 @@
 import os
 import gc
 from flask import Flask, render_template, flash, request, url_for, redirect, session
-from flask_sqlalchemy import SQLAlchemy
 from content_management import Content
 from dbconnect import connection
 from wtforms import Form, BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
@@ -13,14 +12,7 @@ from functools import wraps
 
 #Content() is defined in content_management.py
 TOPIC_DICT = Content()
-
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-db = SQLAlchemy(app)
-
-from models.user import *
-
-
 
 #mail config for confirmation message
 app.config.update(

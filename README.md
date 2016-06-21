@@ -31,7 +31,7 @@ Clone this repository, change directories to project working directory, then set
 
 ```
 git clone REPOSITORY_URL_GOES_HERE
-cd sktimeline
+cd SKTimeline
 virtualenv --no-site-packages .
 source bin/activate
 ```
@@ -49,13 +49,10 @@ Install needed project packages from requirements.txt in the virtualenv via pip-
 bin/pip-sync
 ```
 
-Setup the Flask application enviroment and start the development server
+Setup the Flask application server
 
 ```
-export FLASK_APP=__init__.py
-bin/flask run
-# alternatively can run Flask via iteractive console as well via
-bin/flask shell
+bin/python run.py
 ```
 
 Done!
