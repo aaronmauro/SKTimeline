@@ -1,30 +1,29 @@
 #This is a web app built with the Flask framework based on Jinja templating: http://flask.pocoo.org
 import os
 import gc
-from flask import Flask, render_template, flash, request, url_for, redirect, session
+
 from content_management import Content
-from dbconnect import connection
+
 from wtforms import Form, BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
 from flask_mail import Mail, Message
 from passlib.hash import sha256_crypt
 from MySQLdb import escape_string as thwart
 from functools import wraps
 
-#Content() is defined in content_management.py
-TOPIC_DICT = Content()
-app = Flask(__name__)
+
+from flask import Flask, render_template, flash, request, url_for, redirect, session
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_object('config')
+app.config.from_pyfile( os.path.join( os.path.dirname(__file__) , '../instance/config.py') )
+
+
+from dbconnect import connection
 
 #mail config for confirmation message
-app.config.update(
-	DEBUG=True,
-	#EMAIL SETTINGS
-	MAIL_SERVER='smtp.gmail.com',
-	MAIL_PORT=465,
-	MAIL_USE_SSL=True,
-	MAIL_USERNAME = 'baaronmauro@gmail.com',
-	MAIL_PASSWORD = ''
-	)
 mail = Mail(app)
+
+#Content() is defined in content_management.py
+TOPIC_DICT = Content()
 
 #Homepage
 @app.route('/')
