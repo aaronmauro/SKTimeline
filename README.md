@@ -16,44 +16,53 @@
 
 ## OS X Development Setup Instructions 
 
-Install MySQL Server
+Install MySQL Server*** - more on this later
 
 `brew install mysql`
 
-Install python verions 2.7
+If not yet done so, install python verion 2.7 & virtualenv
 
-`brew install python`
+```
+brew install python
+pip install virtualenv
+```
 
-Install virtualenv
+Clone this repository, change directories to project working directory, then setup and activate the virtual enviroment:
 
-`pip install virtualenv` 
+```
+git clone REPOSITORY_URL_GOES_HERE
+cd project
+virtualenv --no-site-packages .
+source bin/activate
+```
 
-Go to application project folder 
+Downgrade to pip v8.1.1 and install pip-tools:
+_(note: this is currently needed for pip-tools as used to manage packages)_
 
-`cd project`
+```
+bin/pip install --upgrade pip==8.1.1
+bin/pip install pip-tools
+```
+Install needed project packages from requirements.txt in the virtualenv via pip-sync:
 
-Activate the virtual enviroment
+```
+bin/pip-sync
+```
 
-`virtualenv --no-site-packages .`
+Setup the Flask application enviroment and start the development server
 
-Activate the virtual enviroment:
+```
+export FLASK_APP=__init__.py
+bin/flask run
+# alternatively can run Flask via iteractive console as well via
+bin/flask shell
+```
 
-`source bin/activate`
+Done!
 
-Install needed packages
+## About [`pip-tools`](https://github.com/nvie/pip-tools#readme) for package management ##
+I've setup this project to use the `requirements.in` file to manage all packages that is needed for development.  
 
-`bin/pip install Flask MySQL-python wtforms flask_mail passlib`
+If a new package is needed, add it to the `requirements.in` file then run `bin/pip-compile`.  This generates the `requirements.txt` file which locks the package to a version.  
 
-Setup Flask enviroment
-
-`export FLASK_APP=__init__.py`
-
-Start development server
-
-`bin/flask run` 
-
-or alternatively run the Flask interactive console
-
-`bin/flask shell`
-
-
+When upgrading a code change from the repo that requires a new package to be d, run `bin/pip-sync` which will install/upgrade/uninstall everything so that the virtualenv exactly matches what's in `requirements.txt` file.
