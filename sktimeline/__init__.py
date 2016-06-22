@@ -28,8 +28,20 @@ TOPIC_DICT = Content()
 def homepage():
     return render_template("main.html")
 
+#Login Required Flash Warning
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("Please login")
+            return redirect(url_for('login_page'))
+    return wrap
+
 #Dashboard
 @app.route('/dashboard/')
+@login_required
 def dashboard():
     return render_template("dashboard.html", TOPIC_DICT = TOPIC_DICT)
 
@@ -61,17 +73,6 @@ def sitemap():
         return response
     except Exception as e:
         return(str(e))
-
-#Login Required Flash Warning
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash("Please login")
-            return redirect(url_for('login_page'))
-    return wrap
 
 #Logout Notice Flash Warning
 @app.route("/logout/")
