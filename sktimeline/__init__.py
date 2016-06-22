@@ -3,13 +3,9 @@ import os
 import gc
 
 from content_management import Content
-
 from wtforms import Form, BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
 from flask_mail import Mail, Message
-from passlib.hash import sha256_crypt
-from MySQLdb import escape_string as thwart
 from functools import wraps
-
 from flask import Flask, render_template, flash, request, url_for, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -19,8 +15,7 @@ app.config.from_pyfile( os.path.join( os.path.dirname(__file__) , '../instance/c
 
 db = SQLAlchemy(app)
 
-from sktimeline import models
-from dbconnect import connection
+from sktimeline.models import User
 
 #mail config for confirmation message
 mail = Mail(app)
@@ -93,15 +88,11 @@ def login_page():
 
     error = ''
     try:
-        c, conn = connection()
         if request.method == "POST":
-            data = c.execute("SELECT * FROM users WHERE username = (%s)",
-                            thwart(request.form['username']))
-            data = c.fetchone()[2]
-
-            if sha256_crypt.verify(request.form['password'], data):
+            user = User.load_by_username(request.form['username'])
+            if user and user.password_is_correct(request.form['password']):
                 session['logged_in'] = True
-                session['username'] = request.form['username']
+                session['username'] = user.username
 
                 flash("You are now logged in!")
                 return redirect(url_for("dashboard"))
@@ -140,23 +131,23 @@ def register_page():
         if request.method == "POST" and form.validate():
             username = form.username.data
             email = form.email.data
-            password = sha256_crypt.encrypt((str(form.password.data)))
-            c, conn = connection()
+            password = form.password.data
 
-            x = c.execute("SELECT * FROM users WHERE username = (%s)",
-                          (thwart(username)))
-            if int(x) > 0:
-                flash("Password already in use. Please choose another.")
+            new_user = User(username, password, email)
+
+            if User.username_exists(username):
+                flash("Username already in use. Please choose another.")
                 return render_template('register.html', form=form)
             else:
-                c.execute("INSERT INTO users (username, passwords, email, tracking) VALUES (%s, %s, %s, %s)",(thwart(username), thwart(password), thwart(email), thwart("/homepage/")))
-
+                # insert user here
+                #todo: readd the tracking
+                db.session.add(new_user)
+                db.session.commit()
+                db.session.close()
 # /homepage/ is where the user will be sent after a failed registration. You could forward to an intro to site functionality too.
-
-                conn.commit()
                 flash("Thanks for registering! Confirmation email sent.")
-                c.close()
-                conn.close()
+
+
                 gc.collect() #garbage collection to reduce memory use.
 
                 session['logged_in'] = True
