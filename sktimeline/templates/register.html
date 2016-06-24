@@ -1,9 +1,9 @@
-{% extends "regheader.html" %}
+{% extends "content_base.html" %}
 
-{% block body %}
+{% block content_base %}
 
-        <h4>Registration</h4>
-        <br>
+        <h2>Registration</h2>
+
         {% from "_formhelpers.html" import render_field %}
         <form method=post action="/register/">
             <dl style="color:darkgrey;" class="register">
@@ -17,8 +17,8 @@
             <p><input class="btn btn-default" type=submit value=Register></p>
         </form>
 
-{% if error %}
-    <p class="error"><strong>Error: </strong>{{error}}</p>
-{% endif %}
+      {% if error %}
+          <p class="error"><strong>Error: </strong>{{error}}</p>
+      {% endif %}
     <br>
 {% endblock %}

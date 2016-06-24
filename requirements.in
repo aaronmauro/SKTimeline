@@ -4,3 +4,4 @@ Flask-WTF
 flask_mail
 passlib
 Flask-SQLAlchemy
+Flask-Bootstrap

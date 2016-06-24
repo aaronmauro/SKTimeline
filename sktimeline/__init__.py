@@ -22,6 +22,10 @@ db = SQLAlchemy(app)
 from flask_mail import Mail, Message
 mail = Mail(app)
 
+from flask_bootstrap import Bootstrap
+Bootstrap(app)
+
+
 from sktimeline.models import *
 import sktimeline.views
 
