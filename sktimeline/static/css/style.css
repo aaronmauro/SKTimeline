@@ -52,6 +52,12 @@ body {
   margin-left: auto;
 }
 
+/* form styles */
+
+.form-group {
+  color:darkgrey;
+}
+
 /* Model Styles */
 
 .modal-body {
@@ -70,7 +76,7 @@ body {
 }
 
 .modalText {
-    padding: 5%; 
+    padding: 5%;
 }
 
 /* Padding for spacing */
@@ -148,6 +154,7 @@ body {
 }
 
 
+
 /*
  * Affix and center
  */
@@ -181,4 +188,3 @@ body {
     width: 700px;
   }
 }
-

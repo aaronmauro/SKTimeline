@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+
+{% block body %}
+{% from "_formhelpers.html" import bootstrap_field %}
+<form method=post>
+
+      {{bootstrap_field(form.handle)}}
+      {{bootstrap_field(form.hashtags)}}
+
+    <div class="form-group">
+      <input class="btn btn-success" type=submit value="Submit">
+    </div>
+</form>
+{% endblock %}

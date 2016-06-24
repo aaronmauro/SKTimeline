@@ -2,7 +2,13 @@
 import os
 import gc
 
-from wtforms import Form, BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
+from pprint import pprint
+
+
+
+from flask.ext.wtf import Form
+from wtforms import BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
+from wtforms.ext.sqlalchemy.orm import model_form
 from functools import wraps
 from flask import Flask, render_template, flash, request, url_for, redirect, session
 
@@ -16,7 +22,7 @@ db = SQLAlchemy(app)
 from flask_mail import Mail, Message
 mail = Mail(app)
 
-from sktimeline.models import User
+from sktimeline.models import *
 import sktimeline.views
 
 

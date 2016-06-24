@@ -1,6 +1,6 @@
 Flask
 MySQL-python
-wtforms
+Flask-WTF
 flask_mail
 passlib
 Flask-SQLAlchemy

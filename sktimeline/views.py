@@ -31,7 +31,55 @@ def login_required(f):
 @app.route('/dashboard/')
 @login_required
 def dashboard():
-    return render_template("dashboard.html", TOPIC_DICT = Content() )
+    twitter_settings = TwitterFeedSetting.belonging_to_user(session['user_id'])
+    #TODO: maybe user object and ORM methods - depends on where other settings going
+    return render_template("dashboard.html", TOPIC_DICT = Content(), twitter_settings = twitter_settings  )
+
+
+
+TwitterForm = model_form(TwitterFeedSetting, Form, exclude=['user'], field_args = {
+ #todo add basic validation
+})
+
+@app.route('/dashboard/twitter/new',methods=['GET','POST'])
+@login_required
+def dashboard_twitter_new(id=None):
+    model = TwitterFeedSetting()
+    #todo: if id present check user is allowed to edit this item
+    form = TwitterForm(request.form, model)
+
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(model)
+        model.user = User.query.get(session['user_id'])
+        db.session.add(model)
+        db.session.commit()
+        db.session.close()
+
+        flash("Twitter entry added.")
+        return redirect(url_for("dashboard"))
+
+    return render_template("dashboard/twitter.html", form = form)
+
+
+@app.route('/dashboard/twitter/edit/<id>',methods=['GET','POST'])
+@login_required
+def dashboard_twitter_edit(id):
+    model = TwitterFeedSetting.query.get(id)
+    if not(model) or model.user_id != session['user_id']:
+        return page_not_found()
+    #todo: if id present check user is allowed to edit this item
+    form = TwitterForm(request.form, model)
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(model)
+        db.session.commit()
+        db.session.close()
+        flash("Twitter entry updated.")
+        return redirect(url_for("dashboard"))
+
+    return render_template("dashboard/twitter.html", form = form)
+
 
 #Error Handling
 @app.errorhandler(404)
@@ -82,6 +130,7 @@ def login_page():
             if user and user.password_is_correct(request.form['password']):
                 session['logged_in'] = True
                 session['username'] = user.username
+                session['user_id'] = user.uid
 
                 flash("You are now logged in!")
                 return redirect(url_for("dashboard"))

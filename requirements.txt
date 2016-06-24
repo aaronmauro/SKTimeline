@@ -9,12 +9,13 @@ blinker==1.4              # via flask-mail
 click==6.6                # via flask
 flask-mail==0.9.1
 Flask-SQLAlchemy==2.1
-Flask==0.11.1             # via flask-mail, flask-sqlalchemy
+Flask-WTF==0.12
+Flask==0.11.1             # via flask-mail, flask-sqlalchemy, flask-wtf
 itsdangerous==0.24        # via flask
 Jinja2==2.8               # via flask
 MarkupSafe==0.23          # via jinja2
 MySQL-python==1.2.5
 passlib==1.6.5
 SQLAlchemy==1.0.13        # via flask-sqlalchemy
-Werkzeug==0.11.10         # via flask
-wtforms==2.1
+Werkzeug==0.11.10         # via flask, flask-wtf
+wtforms==2.1              # via flask-wtf
