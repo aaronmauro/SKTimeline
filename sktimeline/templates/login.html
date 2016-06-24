@@ -1,17 +1,18 @@
-{% extends "base.html" %}
+{% extends "content_base.html" %}
 
 {% block content_base %}
+  <h2>Login</h4>
 
+  <form class="form-inline" method="post">
+    <label for="username" class="sr-only">Username</label>
+		<input type="text" class="form-control" placeholder="Username" name="username" id="username" value="{{request.form.username}}">
+    &nbsp;&nbsp;
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" class="form-control" placeholder="Password" name="password" id="password" value="{{request.form.password}}">
+    &nbsp;&nbsp;
+		<input class="btn btn-default" class="btn btn-default" type="submit" value="Login">
+	</form>
 
-        <br>
-        <h2>Login</h4>
-        <br>
-        <form action="" class="form-inline" method="post">
-			<input type="text" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">&nbsp;&nbsp;
-			<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">&nbsp;&nbsp;
-			<input class="btn btn-default" class="btn btn-default" type="submit" value="Login">
-		</form>
-    <br>
-<p>{{error}}</p>
+  <p>{{error}}</p>
 
 {% endblock %}
