@@ -84,7 +84,7 @@ def dashboard_twitter_edit(id):
 #Error Handling
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("404.html")
+    return render_template("errors/404.html")
 
 
 @app.errorhandler(500)
