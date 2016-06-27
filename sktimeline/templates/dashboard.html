@@ -1,8 +1,12 @@
 {% extends "base/content_base.html" %}
 
-{% block navbar %}
 
+{% block nav_right %}
+  <li><a href="/">Home</a></li>
+  <li class=active><a href="/dashboard/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
 {% endblock %}
+
 
 {% block content_base %}
 <div role="tabpanel">
@@ -12,8 +16,6 @@
         <li role="presentation" class="active"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
         <li role="presentation"><a href="#slack" aria-controls="slack" role="tab" data-toggle="tab">Slack</a></li>
         <li role="presentation"><a href="#github" aria-controls="github" role="tab" data-toggle="tab">GitHub</a></li>
-
-
     </ul>
 
     <!-- Slack -->
