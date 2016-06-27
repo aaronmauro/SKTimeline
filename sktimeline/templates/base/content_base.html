@@ -16,18 +16,15 @@
 {% import "bootstrap/utils.html" as utils %}
 
   <div id="wrap">
-    <main id="main" class="container clear-top">
-
     {%- with messages = get_flashed_messages(with_categories=True) %}
     {%- if messages %}
-    {{messages}}
-      <div class="row">
-        <div class="col-md-12">
-          {{utils.flashed_messages(messages)}}
-        </div>
-      </div>
+      {{utils.flashed_messages(messages)}}
     {%- endif %}
     {%- endwith %}
+    
+    <main id="main" class="container clear-top">
+
+
 
     {%- block content_base -%} {%- endblock -%}
     </main> <!-- / #main -->

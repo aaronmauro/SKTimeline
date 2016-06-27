@@ -186,6 +186,9 @@ def register_page():
 
                 session['logged_in'] = True
                 session['username'] = username
+                # todo: fill this in at registration time
+                session['user_id'] = 1
+
                 msg = Message("Thanks for Registering!", sender="baaronmauro@gmail.com", recipients=[email])
                 msg.body = "Hi there, "+username+"!\nThis system is still in active development. By registering, you'll recieve notifications about availability and new functionality!\n Thanks for your interest in SKTimeline,\nAaron"
                 mail.send(msg)
