@@ -10,7 +10,12 @@
           {{wtf.form_field(form.hashtags)}}
 
         <div class="form-group">
-          <input class="btn btn-default" type=submit value="Submit">
+          {% if edit %}
+            <input class="btn btn-default" type=submit value="Update">
+            <input class="btn btn-danger" type=submit name="delete" value="Delete">
+          {% else %}
+            <input class="btn btn-default" type=submit value="Add">
+          {% endif %}
         </div>
     </form>
   </div>

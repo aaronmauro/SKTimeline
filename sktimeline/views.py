@@ -68,17 +68,24 @@ def dashboard_twitter_edit(id):
     model = TwitterFeedSetting.query.get(id)
     if not(model) or model.user_id != session['user_id']:
         return page_not_found()
-    #todo: if id present check user is allowed to edit this item
+
     form = TwitterForm(request.form, model)
 
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and request.form.has_key('delete'):
+        db.session.delete(model)
+        db.session.commit()
+        db.session.close()
+        flash("Twitter entry deleted.")
+        return redirect(url_for("dashboard"))
+
+    elif request.method == 'POST' and form.validate():
         form.populate_obj(model)
         db.session.commit()
         db.session.close()
         flash("Twitter entry updated.")
         return redirect(url_for("dashboard"))
 
-    return render_template("dashboard/twitter.html", form = form)
+    return render_template("dashboard/twitter.html", form = form, edit = True)
 
 
 #Error Handling
