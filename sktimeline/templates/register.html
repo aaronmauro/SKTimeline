@@ -6,8 +6,10 @@
 
         <h2>Registration</h2>
         {% if error %}
-        <p class="error"><strong>Error: </strong>{{error}}</p>
+          <p class="error"><strong>Error: </strong>{{error}}</p>
         {% endif %}
+
+        <p>Already have an account? <a class="btn btn-sm btn-default" href="/login">Login</a> </p>
 
         <form class="form" method="post" role="form">
             {{ form.hidden_tag() }}

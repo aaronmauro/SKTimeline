@@ -1,13 +1,19 @@
 {% extends "base/content_base.html" %}
 {% block content_base %}
-{% from "_formhelpers.html" import bootstrap_field %}
-<form method=post>
 
-      {{bootstrap_field(form.handle)}}
-      {{bootstrap_field(form.hashtags)}}
+<div class="row">
+  <div class="col-md-6">
 
-    <div class="form-group">
-      <input class="btn btn-success" type=submit value="Submit">
-    </div>
-</form>
+    <form method=post>
+          {{ wtf.form_errors(form, hiddens="only") }}
+          {{wtf.form_field(form.handle)}}
+          {{wtf.form_field(form.hashtags)}}
+
+        <div class="form-group">
+          <input class="btn btn-default" type=submit value="Submit">
+        </div>
+    </form>
+  </div>
+
+</div>
 {% endblock %}
