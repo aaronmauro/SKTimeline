@@ -28,8 +28,8 @@ Bootstrap(app)
 
 from sktimeline.models import *
 import sktimeline.views
-
-
+import sktimeline.views.general
+import sktimeline.views.dashboard
 
 
 
