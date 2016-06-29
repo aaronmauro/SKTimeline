@@ -1,176 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="{{ url_for('static', filename='media/favicon.ico')}}">
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base/content_base.html" %}
 
-    <title>SKTimeline</title>
+{% block nav_right %}
 
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+  {% if session.logged_in %}
+    <li class="active"><a href="/">Home</a></li>
+    <li data-toggle="modal" data-target="#features"><a href="#features">Features</a></li>
+    <li><a href="mailto:mauro@psu.edu?Subject=SKTimeline%20Contact">Contact</a></li>
+    <li><a href="/dashboard/">Dashboard</a></li>
+    <li><a href="/logout/">Logout</a></li>
+  {% else %}
+    <li class="active"><a href="/">Home</a></li>
+    <li data-toggle="modal" data-target="#features"><a href="#features">Features</a></li>
+    <li><a href="mailto:mauro@psu.edu?Subject=SKTimeline%20Contact">Contact</a></li>
+    <li><a href="/login/">Login</a></li>
+  {% endif %}
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css')}}">
-      
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-      
-  </head>
+{% endblock %}
 
-  <body>
-<a href="https://github.com/aaronmauro"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6286ade715e9bea433b4705870de482a654f78a/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_white_ffffff.png"></a>      
-    <div class="site-wrapper">
+{% block content_base %}
+<a href="https://github.com/aaronmauro">
+  <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6286ade715e9bea433b4705870de482a654f78a/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_white_ffffff.png">
+</a>
 
-      <div class="site-wrapper-inner">
+<div class="jumbotron text-center" style="background-color:transparent;">
+    <h1>Social Knowledge Timeline</h1>
+    <p class="lead">The missing link for teams working with collaboration platforms, social media, and version control.</p>
+    <p><a href="{% if session.logged_in %}/dashboard/{% else %}/register/{% endif %}" class="btn btn-lg btn-default" role="button">Learn more</a></p>
+</div>
 
-        <div class="cover-container">
-
-          <div class="masthead clearfix">
-            <div class="inner">
-                <!-- Brand Logo
-                  <a class="navbar-brand" href="/">
-                      <img height="30" width="20" alt="Skittle Logo" src="{{ url_for('static', filename='media/skittle.png')}}">
-                      </a>
-                   Brand Logo END -->
-              <h3 class="masthead-brand"><small> SKTimeline </small></h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                    {% if session.logged_in %}
-                    <li class="active"><a href="/">Home</a></li>
-                    <li data-toggle="modal" data-target="#features"><a href="#features">Features</a></li>
-                    <li><a href="mailto:mauro@psu.edu?Subject=SKTimeline%20Contact">Contact</a></li>
-                    <li><a href="/dashboard/">Dashboard</a></li>
-                    <li><a href="/logout/">Logout</a></li>
-                    {% else %}
-                    <li class="active"><a href="/">Home</a></li>
-                    <li data-toggle="modal" data-target="#features"><a href="#features">Features</a></li>
-                    <li><a href="mailto:mauro@psu.edu?Subject=SKTimeline%20Contact">Contact</a></li>
-                    <li><a href="/login/">Login</a></li>
-                    {% endif %}
-                </ul>
-              </nav>
-            </div>
-          </div>
-            
-          <div class="inner cover">
-            <h1 class="cover-heading">Social Knowledge Timeline</h1>
-            <p class="lead">The missing link for teams working with collaboration platforms, social media, and version control.</p>
-
-<!-- Use it Now! -->
-{% if session.logged_in %}
-<a href="/dashboard/"><button type="button" class="btn btn-lg btn-default" >
-  USE IT NOW!
-</button></a>
-{% else %}
-<a href="/register/"><button type="button" class="btn btn-lg btn-default" >
-  USE IT NOW!
-</button></a>
-{% endif %}
-<!-- Use it Now! END -->
 
 <!-- Contact Modal -->
 <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Contact</h4>
-      </div>
-      <div class="modal-body">
-        <!-- Contact Form -->
-           
-          
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Contact</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Contact Form -->
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div><!-- Contact Model END -->
-     
+</div>
+<!-- Contact Model END -->
+
 <!-- Features Modal -->
 <div class="modal fade" id="features" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Slack, Twitter, and GitHub... Together at last!</h4>
-      </div>
-      <div class="modal-body">
-          &nbsp;
-          &nbsp;
-          <!-- Slack Description -->
-          <div class="row">
-  <div class="col-md-2">
-    <img align="left" class="logos" src="{{ url_for('static', filename='media/slack.png')}}" alt="Slack Logo" class="img-rounded">
-    </div>
-  <div class="col-md-8 col-md-offset-2">
-      <p class="lead" class="modalText">Using Slack to organize teams is great! Wouldn't it be great to have a way to integrate these organic conversations into the history of your project? Use your team chatter to understand the chemistry responsible for your insights and innovations!</p>
-</div>
-</div>
-            &nbsp;
-            &nbsp;
-          <!-- Github Description -->
-        <div class="row">
-  <div class="col-md-2">
-    <img align="left" class="logos" src="{{ url_for('static', filename='media/octocat.png')}}" alt="Github Logo" class="img-rounded">
-    </div>
-  <div class="col-md-8 col-md-offset-2">
-      <p class="lead" class="modalText">Github is one of the most common ways to maintain version control in large fast moving teams. Git commit tags can become more than just a quick note. Commits become part of your development narrative. It's a story told each and every step of the way!</p>
-</div>
-</div>
-          &nbsp;
-          &nbsp;
-          <!-- Twitter Description -->
-          <div class="row">
-  <div class="col-md-2">
-          <img align="left" class="logos" src="{{ url_for('static', filename='media/twitter.png')}}" alt="Twitter Logo" class="img-rounded">
-    </div>
-  <div class="col-md-8 col-md-offset-2">
-      <p class="lead" class="modalText">Twitter does a lot of things. It can tell the world what you had for lunch, or it can inform your teams of trends and issues happening right now! Link hashtags and user handles directly into your development timeline. </p>
-</div>
-</div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div><!-- Features Model END -->
-                 
-              
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Developed for the <a href="http://sites.psu.edu/psudhlab">Penn State Digital Humanities Lab</a>, by <a href="https://twitter.com/onthename">@onthename</a>.</p>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Slack, Twitter, and GitHub... Together at last!</h4>
             </div>
-          </div>
+            <div class="modal-body">
+                &nbsp; &nbsp;
+                <!-- Slack Description -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <img align="left" class="logos" src="{{ url_for('static', filename='media/slack.png')}}" alt="Slack Logo" class="img-rounded">
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <p class="lead" class="modalText">Using Slack to organize teams is great! Wouldn't it be great to have a way to integrate these organic conversations into the history of your project? Use your team chatter to understand the chemistry responsible for your insights
+                            and innovations!</p>
+                    </div>
+                </div>
+                &nbsp; &nbsp;
+                <!-- Github Description -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <img align="left" class="logos" src="{{ url_for('static', filename='media/octocat.png')}}" alt="Github Logo" class="img-rounded">
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <p class="lead" class="modalText">Github is one of the most common ways to maintain version control in large fast moving teams. Git commit tags can become more than just a quick note. Commits become part of your development narrative. It's a story told each and
+                            every step of the way!</p>
+                    </div>
+                </div>
+                &nbsp; &nbsp;
+                <!-- Twitter Description -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <img align="left" class="logos" src="{{ url_for('static', filename='media/twitter.png')}}" alt="Twitter Logo" class="img-rounded">
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <p class="lead" class="modalText">Twitter does a lot of things. It can tell the world what you had for lunch, or it can inform your teams of trends and issues happening right now! Link hashtags and user handles directly into your development timeline. </p>
+                    </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-
-      </div>
-
     </div>
-</div>   
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-      
-    <!-- Viewport Bug Workaround --> 
-        <script type="text/javascript" src="{{ url_for('static', filename='js/viewport-bug-workaround.js')}}"></script>
-      
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{
-  url_for('static', filename='js/jquery.js') }}">\x3C/script>')</script>
-        
-      
-<!-- Latest compiled and minified JavaScript -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
-
-    
-  </body>
-</html>
+</div>
+<!-- Features Model END -->
+{% endblock %}

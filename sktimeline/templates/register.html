@@ -1,24 +1,32 @@
-{% extends "regheader.html" %}
+{% extends "base/content_base.html" %}
 
-{% block body %}
+{% block content_base %}
+<div class="row">
+    <div class="col-xs-12 col-md-6">
 
-        <h4>Registration</h4>
-        <br>
-        {% from "_formhelpers.html" import render_field %}
-        <form method=post action="/register/">
-            <dl style="color:darkgrey;" class="register">
-                {{render_field(form.username)}}
-                {{render_field(form.email)}}
-                {{render_field(form.password)}}
-                {{render_field(form.confirm)}}
-                <br>
-                {{render_field(form.accept_tos)}}
-            </dl>
-            <p><input class="btn btn-default" type=submit value=Register></p>
+        <h2>Registration</h2>
+        {% if error %}
+          <p class="error"><strong>Error: </strong>{{error}}</p>
+        {% endif %}
+
+        <p>Already have an account? <a class="btn btn-sm btn-default" href="/login">Login</a> </p>
+
+        <form class="form" method="post" role="form">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_errors(form, hiddens="only") }}
+            {{wtf.form_field(form.username)}}
+            {{wtf.form_field(form.email)}}
+            {{wtf.form_field(form.password)}}
+            {{wtf.form_field(form.confirm)}}
+
+            <!-- todo: this needs validation error message, if submitting and not checked it give no notice -->
+            {{wtf.form_field(form.accept_tos)}}
+
+            <div class="form-actions">
+                <button name="action_save" type="submit" class="btn btn-default">Register</button>
+            </div>
         </form>
 
-{% if error %}
-    <p class="error"><strong>Error: </strong>{{error}}</p>
-{% endif %}
-    <br>
+    </div>
+</div>
 {% endblock %}

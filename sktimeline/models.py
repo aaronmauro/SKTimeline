@@ -12,6 +12,10 @@ class User(db.Model):
     tracking = db.Column(db.Text, default=None)
     rank = db.Column(db.Integer, default=None)
 
+    twitter_feed_settings = db.relationship('TwitterFeedSetting', backref='user', lazy='select')
+    slack_feed_settings = db.relationship('SlackFeedSetting', backref='user', lazy='select')
+    github_feed_settings =  db.relationship('GithubFeedSetting', backref='user', lazy='select')
+
     def __init__(self, username, password, email):
         self.username = username
         self.passwords = sha256_crypt.encrypt(password)
@@ -32,3 +36,38 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+class TwitterFeedSetting(db.Model):
+    __tablename__ = 'feed_setting_twitter'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'))
+    handle = db.Column( db.String(64) )
+    hashtags = db.Column(db.Text, default=None)
+
+    @classmethod
+    def belonging_to_user(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+class SlackFeedSetting(db.Model):
+    __tablename__ = 'feed_setting_slack'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'))
+    team = db.Column( db.String(256), default=None )
+    channel = db.Column( db.String(256), default=None)
+
+    @classmethod
+    # todo: these can be dry by using module I think
+    def belonging_to_user(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+class GithubFeedSetting(db.Model):
+    __tablename__ = 'feed_setting_github'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'))
+    username = db.Column( db.String(64) )
+    project = db.Column( db.String(64) , default=None)
+
+    @classmethod
+    def belonging_to_user(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()

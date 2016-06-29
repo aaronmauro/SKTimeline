@@ -1,64 +1,97 @@
-{% extends "header.html" %}
-
-{% block body %}
+{% extends "base/content_base.html" %}
 
 
-            <div class="inner cover" style="margin-top:15%;">
+{% block nav_right %}
+  <li><a href="/">Home</a></li>
+  <li class=active><a href="/dashboard/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
+{% endblock %}
 
+
+{% block content_base %}
 <div role="tabpanel">
 
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs nav-justified" role="tablist">
-    <li role="presentation" class="active"><a href="#slack" aria-controls="slack" role="tab" data-toggle="tab">Slack</a></li>
-    <li role="presentation"><a href="#github" aria-controls="github" role="tab" data-toggle="tab">GitHub</a></li>
-    <li role="presentation"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
+        <li role="presentation"><a href="#slack" aria-controls="slack" role="tab" data-toggle="tab">Slack</a></li>
+        <li role="presentation"><a href="#github" aria-controls="github" role="tab" data-toggle="tab">GitHub</a></li>
+    </ul>
 
-  </ul>
+    <!-- Slack -->
+    <div class="tab-content">
+        <!-- Twitter -->
+        <div role="tabpanel" class="tab-pane fade in active" id="twitter">
+            <h2>Twitter Settings</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope=col>Handle</th>
+                        <th scope=col>Hashtags</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in twitter_settings %}
+                        <tr>
+                            <td>{{s.handle}}</td>
+                            <td>{{s.hashtags}}</td>
+                            <td> <a class="btn btn-sm btn-default" href="/dashboard/twitter/edit/{{s.id}}">Edit</a> </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+            <a class="btn btn-default block" href="/dashboard/twitter/new">Add Twitter Handle</a>
+        </div>
 
-  <!-- Slack -->
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane fade in active" id="slack">
-      Slack Settings
-      <div>
-	   {% for t in TOPIC_DICT["Slack Settings"] %}
-	     <a href="{{t[1]}}">{{t[0]}}</a>
-	   {% endfor %}
-      </div>
-  </div>
-  <!-- GitHub -->
-  <div role="tabpanel" class="tab-pane fade" id="github">
-      GitHub Settings
-     <div>
-	   {% for t in TOPIC_DICT["Github Settings"] %}
-	     <a href="{{t[1]}}">{{t[0]}}</a>
-	   {% endfor %}
-      </div>
+        <div role="tabpanel" class="tab-pane" id="slack">
+            <h2>Slack Settings</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope=col>Team</th>
+                        <th scope=col>Channel</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in slack_settings %}
+                        <tr>
+                            <td>{{s.team}}</td>
+                            <td>{{s.channel}}</td>
+                            <td> <a class="btn btn-sm btn-default" href="/dashboard/slack/edit/{{s.id}}">Edit</a> </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+
+            <a class="btn btn-default block" href="/dashboard/slack/new">Add Slack Channel</a>
+
+        </div>
+        <!-- GitHub -->
+        <div role="tabpanel" class="tab-pane fade" id="github">
+            <h2>GitHub Settings</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope=col>Username</th>
+                        <th scope=col>Project</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in github_settings %}
+                        <tr>
+                            <td>{{s.username}}</td>
+                            <td>{{s.project}}</td>
+                            <td> <a class="btn btn-sm btn-default" href="/dashboard/github/edit/{{s.id}}">Edit</a> </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+            <a class="btn btn-default block" href="/dashboard/github/new">Add GitHub Project</a>
+        </div>
+
     </div>
-<!-- Twitter -->
-  <div role="tabpanel" class="tab-pane fade" id="twitter">
-      Twitter Settings
-      <div>
-	   {% for t in TOPIC_DICT["Twitter Settings"] %}
-	     <a href="{{t[1]}}">{{t[0]}}</a>
-	   {% endfor %}
-      </div>
-    </div>
 </div>
-</div>
-
-                <br>
-                <hr>
-                <br>
-                
-<!-- Timeline -->
-                <div style="margin-bottom:15%;" class="well well-lg">
-                    <p class="lead">Sample Timeline</p>
- <div class="embed-responsive embed-responsive-4by3">
-  <iframe class="embed-responsive-item" scrolling="no" src="//cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Pvtus2tsuK09oGLmX22UQhCVeYczGSnAVf1Eis9Yjqw&font=Default&lang=en&initial_zoom=2&height=650"></iframe>
-</div>
-                </div>
-                
-</div>
-            
-
 {% endblock %}
