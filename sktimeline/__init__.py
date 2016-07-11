@@ -6,7 +6,7 @@ from pprint import pprint
 
 
 
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import BooleanField, TextField, IntegerField, StringField, SubmitField, TextAreaField, PasswordField, DateField, validators
 from wtforms.ext.sqlalchemy.orm import model_form
 from functools import wraps
@@ -25,12 +25,17 @@ mail = Mail(app)
 from flask_bootstrap import Bootstrap
 Bootstrap(app)
 
+import tweepy
+tweepy_auth = tweepy.OAuthHandler( app.config['TWEEPY_CONSUMER_KEY'], app.config['TWEEPY_CONSUMER_SECRET'])
+tweepy_auth.set_access_token( app.config['TWEEPY_ACCESS_TOKEN_KEY'], app.config['TWEEPY_ACCESS_TOKEN_SECRET'] )
+tweepy_API = tweepy.API(tweepy_auth)
+
 
 from sktimeline.models import *
 import sktimeline.views
 import sktimeline.views.general
 import sktimeline.views.dashboard
-
+import sktimeline.views.admin
 
 
 if __name__ == "__main__":

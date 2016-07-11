@@ -26,21 +26,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope=col>Handle</th>
-                        <th scope=col>Hashtags</th>
+                        <!-- <th scope=col>Handle</th> -->
+                        <th scope=col>Hashtag</th>
                         <th>Actions</th>
                     </tr>
                     <tbody>
                         {% for s in twitter_settings %}
                         <tr>
-                            <td>{{s.handle}}</td>
-                            <td>{{s.hashtags}}</td>
+                            <!-- <td>{{s.handle}}</td> -->
+                            <td>{{s.hashtag}}</td>
                             <td> <a class="btn btn-sm btn-default" href="/dashboard/twitter/edit/{{s.id}}">Edit</a> </td>
                         </tr>
                         {% endfor %}
                     </tbody>
             </table>
-            <a class="btn btn-default block" href="/dashboard/twitter/new">Add Twitter Handle</a>
+            <a class="btn btn-default block" href="/dashboard/twitter/new">Add Twitter Hashtag</a>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="slack">

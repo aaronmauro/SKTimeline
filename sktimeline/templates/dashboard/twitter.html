@@ -6,12 +6,12 @@
 
     <form method=post>
           {{ wtf.form_errors(form, hiddens="only") }}
-          {{wtf.form_field(form.handle)}}
-          {{wtf.form_field(form.hashtags)}}
+
+          {{wtf.form_field(form.hashtag )}}
 
         <div class="form-group">
           {% if edit %}
-            <input class="btn btn-default" type=submit value="Update">
+            <!-- <input class="btn btn-default" type=submit value="Update"> -->
             <input class="btn btn-danger" type=submit name="delete" value="Delete">
           {% else %}
             <input class="btn btn-default" type=submit value="Add">

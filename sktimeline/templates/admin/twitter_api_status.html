@@ -1,0 +1,16 @@
+{% extends "base/content_base.html" %}
+{% block content_base %}
+
+<div class="row">
+  <div class="col-md-12">
+
+    <h1>Twitter Rate Limit Info</h1>
+
+    <pre>
+      {{rate_limit_status | pprint}}
+    </pre>
+
+  </div>
+
+</div>
+{% endblock %}

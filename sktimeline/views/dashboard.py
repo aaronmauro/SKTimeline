@@ -1,5 +1,6 @@
 from sktimeline import *
-from . import login_required
+from . import login_required, page_not_found
+import json
 
 
 #Dashboard
@@ -15,10 +16,20 @@ def dashboard():
                                              github_settings = github_settings)
 
 
+@app.route('/dashboard/timeline')
+@login_required
+def dashboard_timeline():
+    all_feed_items = []
+    current_user = User.query.get( session['user_id'] )
+    feeds = current_user.twitter_feed_settings
+    for feed in feeds:
+        for item in feed.feed_items:
+            all_feed_items.append( item.as_timelinejs_event() )
 
+    return render_template('dashboard/timeline.html', all_feed_items=json.dumps(all_feed_items))
 
-TwitterForm = model_form(TwitterFeedSetting, Form, exclude=['user'], field_args = {
- #todo add basic validation
+TwitterForm = model_form(TwitterFeedSetting, Form, exclude=['user','status','last_updated','feed_items'], field_args = {
+   #todo add basic validation
 })
 
 @app.route('/dashboard/twitter/new',methods=['GET','POST'])
@@ -27,11 +38,11 @@ def dashboard_twitter_new(id=None):
     model = TwitterFeedSetting()
     #todo: if id present check user is allowed to edit this item
     form = TwitterForm(request.form, model)
-
+    model.user = User.query.get(session['user_id'])
 
     if request.method == 'POST' and form.validate():
         form.populate_obj(model)
-        model.user = User.query.get(session['user_id'])
+        model.status = 'new'
         db.session.add(model)
         db.session.commit()
         db.session.close()
@@ -53,6 +64,7 @@ def dashboard_twitter_edit(id):
 
     if request.method == 'POST' and request.form.has_key('delete'):
         db.session.delete(model)
+        # todo: should it delete twitter statuses here?
         db.session.commit()
         db.session.close()
         flash("Twitter entry deleted.")

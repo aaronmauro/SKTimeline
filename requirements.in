@@ -5,3 +5,5 @@ flask_mail
 passlib
 Flask-SQLAlchemy
 Flask-Bootstrap
+tweepy>=3.0
+schedule

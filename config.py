@@ -20,3 +20,9 @@ SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/sktimeline'
 
 SESSION_TYPE = 'filesystem'
 SECRET_KEY = 'jiboo' # change in instance config for production
+
+#tweepy
+TWEEPY_CONSUMER_KEY = 'consumer-key-here'
+TWEEPY_CONSUMER_SECRET = 'consumer-secret-here'
+TWEEPY_ACCESS_TOKEN_KEY = 'access-token-key-here'
+TWEEPY_ACCESS_TOKEN_SECRET = 'access-token-secret-here'

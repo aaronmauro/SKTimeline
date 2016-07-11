@@ -1,0 +1,63 @@
+{% extends "base/content_base.html" %}
+
+{% block nav_right %}
+  <li><a href="/">Home</a></li>
+  <li class=active><a href="/dashboard/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+<script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+jQuery(document).ready(function(){
+
+  var div_id = 'timeline';
+  var options = {
+    events: {{all_feed_items|safe}}
+  };
+  /*
+  var events = [];
+
+  // example format of events as from timeline js documentation  https://timeline.knightlab.com/docs/json-format.html
+  events.push({
+    start_date: {
+      year: '2016',
+      month: '7',
+      day: '1',
+      hour: '11',
+      minute: '30',
+      second: '31'
+    },
+    text: 'ssss ',
+    media: {
+      url: 'https://twitter.com/statuses/748936429493944320'
+    }
+  });
+  options.events = events;
+  */
+
+  window.timeline = new TL.Timeline(div_id, options);
+})
+(function(){
+
+})();
+ // timlinehere
+</script>
+{% endblock %}
+
+{% block content_base %}
+
+<div class="row">
+  <div class="col-xl-12">
+    <div id="timeline" style="width: 100%; height: 600px"></div>
+
+  </div>
+
+</div>
+{% endblock %}

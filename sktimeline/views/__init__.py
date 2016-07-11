@@ -10,3 +10,6 @@ def login_required(f):
             flash("Please login")
             return redirect(url_for('login_page'))
     return wrap
+
+def page_not_found():
+    return render_template("errors/404.html")
