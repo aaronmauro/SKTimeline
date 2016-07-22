@@ -1,4 +1,5 @@
 #This is a web app built with the Flask framework based on Jinja templating: http://flask.pocoo.org
+
 import os
 import gc
 
@@ -31,12 +32,10 @@ tweepy_auth.set_access_token( app.config['TWEEPY_ACCESS_TOKEN_KEY'], app.config[
 tweepy_API = tweepy.API(tweepy_auth)
 
 
+import github as pyGithub
+if app.config['PYGITHUB_DEBUG']:
+    pyGithub.enable_console_debug_logging()
+GithubAPI = pyGithub.Github(per_page=100, client_id=app.config['GITHUB_CLIENT_ID'], client_secret=app.config['GITHUB_CLIENT_SECRET'] )
+
 from sktimeline.models import *
-import sktimeline.views
-import sktimeline.views.general
-import sktimeline.views.dashboard
-import sktimeline.views.admin
-
-
-if __name__ == "__main__":
-    app.run()
+from sktimeline.views import *

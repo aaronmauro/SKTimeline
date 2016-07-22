@@ -76,6 +76,7 @@
                     <tr>
                         <th scope=col>Username</th>
                         <th scope=col>Project</th>
+                        <th scope=col>Branch</th>
                         <th>Actions</th>
                     </tr>
                     <tbody>
@@ -83,6 +84,7 @@
                         <tr>
                             <td>{{s.username}}</td>
                             <td>{{s.project}}</td>
+                            <td>{{s.branch}}</td>
                             <td> <a class="btn btn-sm btn-default" href="/dashboard/github/edit/{{s.id}}">Edit</a> </td>
                         </tr>
                         {% endfor %}
@@ -94,4 +96,17 @@
 
     </div>
 </div>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+(function(){
+  if ( ! window.location.hash ) {
+    return;
+  }
+  // if hash is present trigger that tab
+  $('a[data-toggle="tab"]').filter('[href="' +window.location.hash + '"]').trigger('click');
+})();
+</script>
+
 {% endblock %}

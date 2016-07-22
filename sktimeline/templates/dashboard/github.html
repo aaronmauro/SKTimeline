@@ -9,9 +9,11 @@
           {{wtf.form_field(form.username)}}
           {{wtf.form_field(form.project)}}
 
+          {{wtf.form_field(form.branch)}}
+          <p><em>if no branch is given, will use master branch</em></p>
+
         <div class="form-group">
           {% if edit %}
-            <input class="btn btn-default" type=submit value="Update">
             <input class="btn btn-danger" type=submit name="delete" value="Delete">
           {% else %}
             <input class="btn btn-default" type=submit value="Add">

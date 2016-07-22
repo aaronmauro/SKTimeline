@@ -1,4 +1,4 @@
-from sktimeline import *
+from sktimeline import tweepy_API, app
 from . import login_required
 import json
 

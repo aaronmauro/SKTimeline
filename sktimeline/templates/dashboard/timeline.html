@@ -12,42 +12,21 @@
 <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
 {% endblock %}
 
-{% block scripts %}
-{{super()}}
+{% block footer_scripts %}
 <script>
 jQuery(document).ready(function(){
 
+  var twitter_events = {{twitter_feed_items|safe}};
+  var github_events = {{github_feed_items|safe}}
+  // todo: want to generate a template for github items and renter using _.template 
+
   var div_id = 'timeline';
   var options = {
-    events: {{all_feed_items|safe}}
+    events: [].concat(twitter_events,github_events)
   };
-  /*
-  var events = [];
-
-  // example format of events as from timeline js documentation  https://timeline.knightlab.com/docs/json-format.html
-  events.push({
-    start_date: {
-      year: '2016',
-      month: '7',
-      day: '1',
-      hour: '11',
-      minute: '30',
-      second: '31'
-    },
-    text: 'ssss ',
-    media: {
-      url: 'https://twitter.com/statuses/748936429493944320'
-    }
-  });
-  options.events = events;
-  */
 
   window.timeline = new TL.Timeline(div_id, options);
 })
-(function(){
-
-})();
- // timlinehere
 </script>
 {% endblock %}
 

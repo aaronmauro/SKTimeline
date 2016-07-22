@@ -19,14 +19,20 @@ def dashboard():
 @app.route('/dashboard/timeline')
 @login_required
 def dashboard_timeline():
-    all_feed_items = []
     current_user = User.query.get( session['user_id'] )
-    feeds = current_user.twitter_feed_settings
-    for feed in feeds:
-        for item in feed.feed_items:
-            all_feed_items.append( item.as_timelinejs_event() )
 
-    return render_template('dashboard/timeline.html', all_feed_items=json.dumps(all_feed_items))
+    twitter_feed_items = []
+    for twitter_feed_setting in current_user.twitter_feed_settings:
+        for item in twitter_feed_setting.feed_items:
+            twitter_feed_items.append( item.as_timelinejs_event() )
+
+    github_feed_items = []
+    for github_feed_setting in current_user.github_feed_settings:
+        for item in github_feed_setting.feed_items:
+            github_feed_items.append( item.to_json )
+
+    return render_template('dashboard/timeline.html', twitter_feed_items=json.dumps(twitter_feed_items),
+                                                      github_feed_items=json.dumps(github_feed_items) )
 
 TwitterForm = model_form(TwitterFeedSetting, Form, exclude=['user','status','last_updated','feed_items'], field_args = {
    #todo add basic validation
@@ -68,13 +74,6 @@ def dashboard_twitter_edit(id):
         db.session.commit()
         db.session.close()
         flash("Twitter entry deleted.")
-        return redirect(url_for("dashboard"))
-
-    elif request.method == 'POST' and form.validate():
-        form.populate_obj(model)
-        db.session.commit()
-        db.session.close()
-        flash("Twitter entry updated.")
         return redirect(url_for("dashboard"))
 
     return render_template("dashboard/twitter.html", form = form, edit = True)
@@ -132,27 +131,32 @@ def dashboard_slack_edit(id):
 
 
 
-GithubForm = model_form(GithubFeedSetting, Form, exclude=['user'], field_args = {
+GithubForm = model_form(GithubFeedSetting, Form, exclude=['user','feed_items'], field_args = {
  #todo add basic validation
+ 'username' : {
+      'validators' : [validators.Required()]
+  },
+ 'project' : {
+      'validators' : [validators.Required()]
+  }
 })
 
 @app.route('/dashboard/github/new',methods=['GET','POST'])
 @login_required
 def dashboard_github_new(id=None):
     model = GithubFeedSetting()
-    #todo: if id present check user is allowed to edit this item
     form = GithubForm(request.form, model)
-
 
     if request.method == 'POST' and form.validate():
         form.populate_obj(model)
+        model.status = 'new'
         model.user = User.query.get(session['user_id'])
         db.session.add(model)
         db.session.commit()
         db.session.close()
 
         flash("GitHub entry added.")
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard") + '#github')
 
     return render_template("dashboard/github.html", form = form)
 
@@ -171,13 +175,6 @@ def dashboard_github_edit(id):
         db.session.commit()
         db.session.close()
         flash("Github entry deleted.")
-        return redirect(url_for("dashboard"))
-
-    elif request.method == 'POST' and form.validate():
-        form.populate_obj(model)
-        db.session.commit()
-        db.session.close()
-        flash("GitHub entry updated.")
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard") + '#github')
 
     return render_template("dashboard/github.html", form = form, edit = True)

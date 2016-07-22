@@ -4,11 +4,15 @@ from sktimeline import *
 
 
 def start_populate_new_items():
+    print 'running start_populate_new_items'
     TwitterFeedSetting.start_populate_new_items()
+    GithubFeedSetting.start_populate_new_items()
     return
 
 def update_items():
+    print 'running update_items'
     TwitterFeedSetting.update_items()
+    GithubFeedSetting.update_items()
     return
 
 # update things marked as "new" every minute
