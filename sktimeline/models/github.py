@@ -134,23 +134,55 @@ class GithubFeedItem(db.Model):
         self.commit_date = dateutil.parser.parse( git_commit_data.raw_data['commit']['committer']['date'] ).replace( tzinfo=None )
         # todo: replace time may be wrong for time zones - we need a way how to treat this :/
 
+
+class GithubFeedItemFormatter():
+
+    def __init__(self, github_feed_setting, feed_item):
+        self.github_feed_setting = github_feed_setting
+        self.feed_item = feed_item
+        self.git_commit_data = feed_item.git_commit_data
+        self.timestamp = self.feed_item.commit_date
+
+
+    @property
+    def unique_id(self):
+        hashtag_attr = self.twitter_feed_setting.hashtag.strip()
+        #hashtag as attribute - remove spaces and non alpha numeric chars
+        hashtag_attr = re.sub(r"[^\w\s]", '', hashtag_attr)
+        # Replace all runs of whitespace with a single dash
+        hashtag_attr = re.sub(r"\s+", '-', hashtag_attr)
+
+        return 'tweet-' + hashtag_attr + '-' + str(self.feed_item.tweet_id)
+
+    def commit_text(self):
+        return '<p>' +  self.git_commit_data['message'] + '<br><br>by ' + self.git_commit_data['committer']['name'] + ' &lt;' +self.git_commit_data['committer']['name'] + '&gt;</p>'
+
+    def group(self):
+        txt = 'GitHub: ' + self.github_feed_setting.username + '/' + self.github_feed_setting.project
+        branch = self.github_feed_setting.get_branch()
+        if (branch != 'master'):
+            txt = txt + ' (' + branch + ')'
+
+        return txt
+
+
     @property
     def to_json(self):
         obj = {}
-        obj['data'] = self.git_commit_data
+        obj['type'] = 'github'
+        obj['group'] = self.group()
+        obj['unique_id'] = 'github-' + self.feed_item.sha
         obj['text'] = {
             'headline': 'Commit',
-            'text': '<p>' +  self.git_commit_data['message'] + '<br><br>by ' + self.git_commit_data['committer']['name'] + ' &lt;' +self.git_commit_data['committer']['name'] + '&gt;</p>' 
-            # todo: above is a basic example of using html templatea in a timeilne text node,
-            #           will want to see what data we want, and for ease of use use a jinja template or _.js template to make formatting this easier
+            'text': self.commit_text()
         }
         obj['start_date'] = {
-          'year': self.commit_date.year,
-          'month': self.commit_date.month,
-          'day': self.commit_date.day,
-          'hour': self.commit_date.hour,
-          'minute':  self.commit_date.minute,
-          'second':  self.commit_date.second
+          'year': self.timestamp.year,
+          'month': self.timestamp.month,
+          'day': self.timestamp.day,
+          'hour': self.timestamp.hour,
+          'minute':  self.timestamp.minute,
+          'second':  self.timestamp.second
         }
 
         return obj;

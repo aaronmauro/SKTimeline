@@ -1,7 +1,7 @@
 from sktimeline import db
 from sktimeline import tweepy, tweepy_API
 from datetime import datetime
-
+import re
 
 class TwitterFeedSetting(db.Model):
     __tablename__ = 'feed_setting_twitter'
@@ -86,12 +86,14 @@ class TwitterFeedSetting(db.Model):
 
 
 
+
+
 class TwitterFeedItem(db.Model):
     __tablename__ = 'twitter_feed_items'
     id = db.Column(db.BigInteger, primary_key=True)
     twitter_feed_id = db.Column(db.Integer, db.ForeignKey('feed_setting_twitter.id'))
     tweet_id = db.Column( db.BigInteger )
-    tweet_retrieved = db.Column( db.DateTime(timezone=True), server_default=db.func.now() )
+    tweet_retrieved = db.Column( db.DateTime(timezone=True), default=datetime.now )
     tweet_data = db.Column( db.PickleType )
 
     def __init__(self, tweet_id, twitter_feed_id, tweet_data):
@@ -99,21 +101,68 @@ class TwitterFeedItem(db.Model):
         self.twitter_feed_id = twitter_feed_id
         self.tweet_data = tweet_data
 
+    @property
     def status_url(self):
         return ( 'https://twitter.com/statuses/' + str(self.tweet_id) )
 
-    def as_timelinejs_event(self):
-        obj = {}
-        obj['media'] = {
-            'url': self.status_url()
-        }
-        obj['start_date'] = {
-          'year': self.tweet_data.created_at.year,
-          'month': self.tweet_data.created_at.month,
-          'day': self.tweet_data.created_at.day,
-          'hour': self.tweet_data.created_at.hour,
-          'minute':  self.tweet_data.created_at.minute,
-          'second':  self.tweet_data.created_at.second
-        }
 
-        return obj;
+
+
+
+
+
+class TwitterFeedItemFormatter:
+    def __init__(self, twitter_feed_setting, feed_item):
+        self.twitter_feed_setting = twitter_feed_setting
+        self.feed_item = feed_item
+        self.timestamp = self.feed_item.tweet_data.created_at
+        self._photo_media_url = None
+
+    def photo_media_url(self):
+        if self._photo_media_url is not None:
+            return self._photo_media_url
+
+        self._photo_media_url = False
+        if not 'media' in self.feed_item.tweet_data.entities:
+            return False
+
+        for e in self.feed_item.tweet_data.entities['media']:
+            if 'type' in e and e['type'] == 'photo':
+                self._photo_media_url = e['media_url']
+                break
+        return self._photo_media_url
+
+
+    @property
+    def unique_id(self):
+        hashtag_attr = self.twitter_feed_setting.hashtag.strip()
+        #hashtag as attribute - remove spaces and non alpha numeric chars
+        hashtag_attr = re.sub(r"[^\w\s]", '', hashtag_attr)
+        # Replace all runs of whitespace with a single dash
+        hashtag_attr = re.sub(r"\s+", '-', hashtag_attr)
+
+        return 'tweet-' + hashtag_attr + '-' + str(self.feed_item.tweet_id)
+
+    @property
+    def to_json(self):
+        obj = {}
+        obj['type'] = 'twitter'
+        obj['tweet_text'] = self.feed_item.tweet_data.text
+        obj['group'] = 'Twitter: ' + self.twitter_feed_setting.hashtag
+        obj['unique_id'] = self.unique_id
+        obj['media'] = {
+            'url': self.feed_item.status_url
+            # todo: add thumbnail here
+        }
+        media_url = self.photo_media_url()
+        if media_url:
+            obj['background'] = { 'url': media_url }
+        obj['start_date'] = {
+          'year': self.timestamp.year,
+          'month': self.timestamp.month,
+          'day': self.timestamp.day,
+          'hour': self.timestamp.hour,
+          'minute':  self.timestamp.minute,
+          'second':  self.timestamp.second
+        }
+        return obj

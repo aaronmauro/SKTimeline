@@ -14,6 +14,6 @@ def login_required(f):
 def page_not_found():
     return render_template("errors/404.html")
 
-from admin import *
-from dashboard import *
-from general import *
+import admin
+import dashboard
+import general

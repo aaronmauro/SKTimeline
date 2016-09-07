@@ -6,16 +6,10 @@
 
     <form method=post>
           {{ wtf.form_errors(form, hiddens="only") }}
-          {{wtf.form_field(form.team)}}
           {{wtf.form_field(form.channel)}}
 
         <div class="form-group">
-          {% if edit %}
-            <input class="btn btn-default" type=submit value="Update">
-            <input class="btn btn-danger" type=submit name="delete" value="Delete">
-          {% else %}
-            <input class="btn btn-default" type=submit value="Add">
-          {% endif %}
+            <input class="btn btn-default" type=submit value="Select Channel">
         </div>
     </form>
   </div>

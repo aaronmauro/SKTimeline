@@ -1,0 +1,37 @@
+{# this contains the contents of content_base but without the container classes on main so that the uses the entire width of the viewport #}
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "base/base.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+
+{% block content %}
+{% import "bootstrap/utils.html" as utils %}
+
+  <div id="wrap">
+    {%- with messages = get_flashed_messages(with_categories=True) %}
+    {%- if messages %}
+      {{utils.flashed_messages(messages)}}
+    {%- endif %}
+    {%- endwith %}
+
+    <main id="main" class="clear-top">
+    {%- block content_base -%} {%- endblock -%}
+    </main> <!-- / #main -->
+  </div>  <!-- / #wrap -->
+
+  <footer class="footer">
+    <div class="container">
+      <p>Developed for the <a href="http://sites.psu.edu/psudhlab">Penn State Digital Humanities Lab</a>, by <a href="https://twitter.com/onthename">@onthename</a>.</p>
+    </div>
+  </footer>
+
+{% endblock %}

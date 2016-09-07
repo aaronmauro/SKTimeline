@@ -21,7 +21,7 @@
       {{utils.flashed_messages(messages)}}
     {%- endif %}
     {%- endwith %}
-    
+
     <main id="main" class="container clear-top">
 
 
@@ -30,10 +30,12 @@
     </main> <!-- / #main -->
   </div>  <!-- / #wrap -->
 
+  {# todo: should figure out a way to include this footer text on both content base and the full width page #}
   <footer class="footer">
     <div class="container">
       <p>Developed for the <a href="http://sites.psu.edu/psudhlab">Penn State Digital Humanities Lab</a>, by <a href="https://twitter.com/onthename">@onthename</a>.</p>
     </div>
   </footer>
+
 
 {% endblock %}

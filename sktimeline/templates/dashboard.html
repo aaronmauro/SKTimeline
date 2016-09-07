@@ -35,7 +35,11 @@
                         <tr>
                             <!-- <td>{{s.handle}}</td> -->
                             <td>{{s.hashtag}}</td>
-                            <td> <a class="btn btn-sm btn-default" href="/dashboard/twitter/edit/{{s.id}}">Edit</a> </td>
+                            <td>
+                              <form method="post" action="/dashboard/twitter/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -56,16 +60,23 @@
                     <tbody>
                         {% for s in slack_settings %}
                         <tr>
-                            <td>{{s.team}}</td>
-                            <td>{{s.channel}}</td>
-                            <td> <a class="btn btn-sm btn-default" href="/dashboard/slack/edit/{{s.id}}">Edit</a> </td>
+                            <td>{{s.team_name}}</td>
+                            <td>{{s.channel_name}}</td>
+                            <td>
+                              <form method="post" action="/dashboard/slack/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
             </table>
 
+            <form method="post" action="/dashboard/slack/start_auth">
+              <!-- todo: these should have some form csrf tokens? -->
+              <input type="submit" class="btn btn-default block" value="Add Slack Channel" />
+            </form>
 
-            <a class="btn btn-default block" href="/dashboard/slack/new">Add Slack Channel</a>
 
         </div>
         <!-- GitHub -->
@@ -85,7 +96,11 @@
                             <td>{{s.username}}</td>
                             <td>{{s.project}}</td>
                             <td>{{s.branch}}</td>
-                            <td> <a class="btn btn-sm btn-default" href="/dashboard/github/edit/{{s.id}}">Edit</a> </td>
+                            <td>
+                              <form method="post" action="/dashboard/github/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -94,6 +109,9 @@
             <a class="btn btn-default block" href="/dashboard/github/new">Add GitHub Project</a>
         </div>
 
+    </div>
+    <div>
+      <p class="margin-top-10"><a class="btn btn-default" href="/dashboard/timeline">View Timeline</a> </p>
     </div>
 </div>
 {% endblock %}

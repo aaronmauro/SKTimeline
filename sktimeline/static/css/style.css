@@ -1,117 +1,188 @@
-/*
- * Globals
- */
-
-/* Links */
 a,
 a:focus,
 a:hover {
-  color: #fff;
-}
+  color: #fff; }
 
-/* Custom default button */
 .btn-default,
 .btn-default:focus {
   color: #333;
-  text-shadow: none; /* Prevent inheritence from `body` */
+  text-shadow: none;
+  /* Prevent inheritence from `body` */
   background-color: #fff;
-  border: 1px solid #fff;
-}
+  border: 1px solid #fff; }
 
-
-
-/*
- * Base structure
- */
+.margin-top-10 {
+  margin-top: 10px; }
 
 html,
 body {
   height: 100%;
-  background-color: #333;
-}
+  background-color: #333; }
+
 body {
   color: #fff;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-}
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
 
 #wrap {
-  min-height: 100%;
-}
+  min-height: 100%; }
+
 #main {
-  overflow:auto;
-  padding-bottom:50px; /* this needs to be bigger than footer height*/
-}
+  overflow: auto;
+  padding-bottom: 50px;
+  /* this needs to be bigger than footer height*/ }
 
 .footer {
   position: relative;
-  margin-top: -50px; /* negative value of footer height */
+  margin-top: -50px;
+  /* negative value of footer height */
   height: 50px;
-  clear:both;
-  padding-top:20px;
-
-  text-align: center;
-}
-
-
-/* Model Styles */
+  clear: both;
+  padding-top: 20px;
+  text-align: center; }
 
 .modal-body {
-    color:black;
-    text-shadow: none; /* Prevent inheritence from `body` */
-}
+  color: black;
+  text-shadow: none;
+  /* Prevent inheritence from `body` */ }
 
 .modal-title {
-    color:black;
-    text-shadow: none; /* Prevent inheritence from `body` */
-}
+  color: black;
+  text-shadow: none;
+  /* Prevent inheritence from `body` */ }
 
 .logos {
-    height: 100px;
-    width: 100px;
-}
+  height: 100px;
+  width: 100px; }
 
 .modalText {
-    padding: 5%;
-}
+  padding: 5%; }
 
-/* Padding for spacing */
 .inner {
-  padding: 30px;
-}
-
-/*
- * Cover
- */
+  padding: 30px; }
 
 .cover {
-  padding: 0 20px;
-}
+  padding: 0 20px; }
+
 .cover .btn-lg {
   padding: 10px 20px;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
-/*
- * Affix and center
- */
+#timeline-select-container {
+  margin-bottom: 10px; }
+  #timeline-select-container .select2 * {
+    text-shadow: none !important; }
+  #timeline-select-container .select2 .select2-selection.select2-selection--multiple {
+    cursor: pointer; }
+  #timeline-select-container .select2 .select2-selection__choice {
+    background-color: #333333;
+    padding: 5px 10px;
+    color: #fff; }
+    #timeline-select-container .select2 .select2-selection__choice span {
+      color: #fff; }
+    #timeline-select-container .select2 .select2-selection__choice[title^=Slack] {
+      background-color: #d9176a; }
+    #timeline-select-container .select2 .select2-selection__choice[title^=GitHub] {
+      background-color: #333333; }
+    #timeline-select-container .select2 .select2-selection__choice[title^=Twitter] {
+      background-color: #1a8bf0; }
+
+.select2-container .select2-dropdown * {
+  text-shadow: none !important; }
+
+.select2-container .select2-dropdown .select2-results__option {
+  color: #fff;
+  padding: 10px; }
+  .select2-container .select2-dropdown .select2-results__option[aria-selected=true] {
+    display: none; }
+  .select2-container .select2-dropdown .select2-results__option[data-title^=Slack] {
+    background-color: #d9176a; }
+    .select2-container .select2-dropdown .select2-results__option[data-title^=Slack].select2-results__option--highlighted {
+      background-color: #ea3985; }
+  .select2-container .select2-dropdown .select2-results__option[data-title^=GitHub] {
+    background-color: #333333; }
+    .select2-container .select2-dropdown .select2-results__option[data-title^=GitHub].select2-results__option--highlighted {
+      background-color: #4d4d4d; }
+  .select2-container .select2-dropdown .select2-results__option[data-title^=Twitter] {
+    background-color: #1a8bf0; }
+    .select2-container .select2-dropdown .select2-results__option[data-title^=Twitter].select2-results__option--highlighted {
+      background-color: #4aa3f3; }
+
+body.tl-unselecting > .select2-container--open {
+  display: none; }
+
+#timeline {
+  height: 700px;
+  height: 87.5vh; }
+  #timeline * {
+    text-shadow: none !important; }
+  #timeline .tl-media .tl-media-twitter blockquote p {
+    font-size: 18px; }
+  #timeline .tl-timegroup .tl-timegroup-message {
+    color: #a6a6a6; }
+
+div.tl-slide .tl-slide-content .tl-text:before,
+div.tl-slide .tl-slide-content .tl-media-twitter:before {
+  content: '';
+  display: inline-block;
+  background-size: cover;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  top: -10px; }
+
+div.tl-slide[id^="slack"] .tl-slide-content .tl-text:before {
+  background-image: url(../media/logos/slack.png); }
+
+div.tl-slide[id^="github"] .tl-slide-content .tl-text:before {
+  background-image: url(../media/logos/github.png); }
+
+div.tl-slide[id^="tweet"] .tl-slide-content .tl-media-twitter:before {
+  background-image: url(../media/logos/twitter.png); }
+
+div.tl-timemarker[id^="tweet"] .tl-timemarker-content-container {
+  background-color: #1a8bf0; }
+
+div.tl-timemarker[id^="tweet"].tl-timemarker-active .tl-timemarker-content-container {
+  background-color: #56a9f4; }
+
+div.tl-timemarker[id^="tweet"].tl-timemarker-active .tl-timemarker-content,
+div.tl-timemarker[id^="tweet"] .tl-timemarker-content .tl-timemarker-media-container [class^=tl-icon-],
+div.tl-timemarker[id^="tweet"] .tl-timemarker-text h2.tl-headline,
+div.tl-timemarker[id^="tweet"] .tl-timemarker-text h2.tl-headline p {
+  color: #fff !important; }
+
+div.tl-timemarker[id^="slack"] .tl-timemarker-content-container {
+  background-color: #d9176a; }
+
+div.tl-timemarker[id^="slack"].tl-timemarker-active .tl-timemarker-content-container {
+  background-color: #eb458c; }
+
+div.tl-timemarker[id^="slack"].tl-timemarker-active .tl-timemarker-content,
+div.tl-timemarker[id^="slack"] .tl-timemarker-content .tl-timemarker-media-container [class^=tl-icon-],
+div.tl-timemarker[id^="slack"] .tl-timemarker-text h2.tl-headline,
+div.tl-timemarker[id^="slack"] .tl-timemarker-text h2.tl-headline p {
+  color: #fff !important; }
+
+div.tl-timemarker[id^="github"] .tl-timemarker-content-container {
+  background-color: #333333; }
+
+div.tl-timemarker[id^="github"].tl-timemarker-active .tl-timemarker-content-container {
+  background-color: #535353; }
+
+div.tl-timemarker[id^="github"].tl-timemarker-active .tl-timemarker-content,
+div.tl-timemarker[id^="github"] .tl-timemarker-content .tl-timemarker-media-container [class^=tl-icon-],
+div.tl-timemarker[id^="github"] .tl-timemarker-text h2.tl-headline,
+div.tl-timemarker[id^="github"] .tl-timemarker-text h2.tl-headline p {
+  color: #fff !important; }
 
 @media (min-width: 768px) {
-  /* Pull out the header and footer */
-
-  /* Start the vertical centering */
   .site-wrapper-inner {
-    vertical-align: middle;
-  }
-  /* Handle the widths */
+    vertical-align: middle; }
   .cover-container {
-    width: 100%; /* Must be percentage or pixels for horizontal alignment */
-  }
-}
+    width: 100%; } }
 
 @media (min-width: 992px) {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 700px;
-  }
-}
+    width: 700px; } }
