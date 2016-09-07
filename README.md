@@ -108,10 +108,53 @@ Now you should be able to retup the Flask application server
 bin/python run.py
 ```
 
+## Generating and Entering API Credentials 
 
+In order to download the activity from GitHub, Twitter, & Slack, you must enter API credentials into `instance/config.py`.
+
+### Twitter API Credentials
+
+1. Go to [https://apps.twitter.com](https://apps.twitter.com) and login to your Twitter account
+2. Press **Create New App**, enter a name, description, and website.  It is fine to use a placeholder value for the website URL like `http://127.0.0.1:5000/`.
+3. Click on the tab **Keys and Access Tokens**
+4. Click **Access Level** and change to "read only" _(this is so that if these credentials were ever stolen that they cannot make changes to your account and act on your behalf)_
+5. Copy the **Consumer Key (API Key)** value and place in the `TWEEPY_CONSUMER_KEY` value of `instance/config.py`
+6. Copy **Consumer Secret (API Secret)** and place in `TWEEPY_CONSUMER_SECRET` 
+7. Press **Generate Access Token and Token Secret**
+8. Copy **Access Token** and place in `TWEEPY_ACCESS_TOKEN_KEY`
+9. Copy **Access Token Secret** and place in `TWEEPY_ACCESS_TOKEN_SECRET`
+
+### GitHub API Credentials
+
+These GitHub access tokens are used to use the [GitHub API over Basic Authentication](https://developer.github.com/v3/auth/#basic-authentication) in the PyGithub module.
+
+1. Go login to your GitHub account, go to [https://github.com/settings/developers](https://github.com/settings/developers) and click **Register New Application**
+2. Enter an Application Name and Homepage URL and press save.  _Note: It is fine to use a placeholder homepage URL like `http://127.0.0.1:5000/` since this will just be visible to you._
+3. Copy the **Access Token** value and place in the `GITHUB_CLIENT_ID` value of `instance/config.py`
+4. Copy **Client Secret** and place in `GITHUB_CLIENT_SECRET`
+
+
+### Slack API Credentials
+1. Go to [https://api.slack.com/apps](https://api.slack.com/apps), login to any Slack team with an account, and press "Create New App".
+2. Fill in a app name, short & long description, select a team.
+3. In the **Redirect URI(s)** field you must enter the OAuth callback URIs for where this app will be hosted.
+
+ For local development this will likely be `http://127.0.0.1:5000/slack_auth/callback`
+  
+ For development on a remote web server you will need to enter `http://yourserveraddress/slack_auth/callback`
+ 
+ _Note: this can be changed and added to in the future, so if you do not know all the places this will be hosted; it is fine to leave blank for now_
+4. After submitting form, click the **OAuth and Permissions** menu item.
+5. Copy the **Client ID** value and place in the `SLACK_CLIENT_ID` value of `instance/config.py`
+6. Click **Show** under **Client Secret** then copy the value into `SLACK_CLIENT_SECRET`
+
+
+Once these API credentials are present, you may need to restart the web server for these configuration values take effect.
+
+## Development Notes
 
 ### About [`pip-tools`](https://github.com/nvie/pip-tools#readme) for package management ##
-I've setup this project to use the `requirements.in` file to manage all packages that is needed for development.  
+I've setup this project to use the `requirements.in` file to manage all python packages that are needed in the code.  
 
 If a new package is needed, add it to the `requirements.in` file then run `bin/pip-compile`.  This generates the `requirements.txt` file which locks the package to a version.  
 
