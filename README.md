@@ -153,7 +153,23 @@ Once these API credentials are present, you may need to restart the web server f
 
 ## Development Notes
 
-### About [`pip-tools`](https://github.com/nvie/pip-tools#readme) for package management ##
+### `scheduler.py` for downloading timeline activity
+
+The code which triggers the downloading the timeline activity is seperate from the Flask application server in the file `scheduler.py `.  On a web server, we set this process to run using supervisor (more info about this in the `etc/README.md` file); however, for development it's easiest to run this file independantly via `bin/python scheduler.py`.
+
+This process is a schedule which checks for items in newly added feeds every 1 minute and items in prior updated feeds every 15 minutes.  Because this time delay may be inconvinent for testing during development, an alternative method way to trigger the feed updates is by running the Flask application shell: 
+
+`bin/python shell.py` then run a specific classes' update or populate method:
+
+```
+TwitterFeedSetting.start_populate_new_items()
+GithubFeedSetting.start_populate_new_items()
+TwitterFeedSetting.update_items()
+SlackFeedSetting.update_items() 
+[...]
+```
+
+### [`pip-tools`](https://github.com/nvie/pip-tools#readme) for package management ##
 I've setup this project to use the `requirements.in` file to manage all python packages that are needed in the code.  
 
 If a new package is needed, add it to the `requirements.in` file then run `bin/pip-compile`.  This generates the `requirements.txt` file which locks the package to a version.  
@@ -161,17 +177,33 @@ If a new package is needed, add it to the `requirements.in` file then run `bin/p
 When upgrading a code change from the repo that requires a new package to be d, run `bin/pip-sync` which will install/upgrade/uninstall everything so that the virtualenv exactly matches what's in `requirements.txt` file.
 
 
-###  Note about the styles custom styles in `assets/css/styles.css`
+###  Custom Styles in `assets/css/styles.css`
 I've setup this file to be compiled using SASS and the the grunt task runner, so
 these should not be edited directly and instead use the SCSS files in `assets/scss/`.
 
-#### To use gulp for SCSS compilation
+#### Using gulp to compile SCSS:
 
-Install node/npm if not on your system if not already available `brew install node`
+Install node/npm if not on your system if not already available 
 
-Install gulp and gulp-sass `npm install gulp && npm install gulp-sass --save-dev`
+```
+brew install node
+```
+
+Install gulp and gulp-sass run 
+
+```
+npm install gulp && npm install gulp-sass --save-dev
+```
 
 While developing, tell gulp to watch and compile the SCSS whenever it is changed
-by running `gulp sass:watch`
+by running 
 
-Note: I recommend sending it into a background process by running `gulp sass:watch &`
+```
+gulp sass:watch
+```
+
+I also recommend sending the process into a background process which makes it a little easier for development so the task does not require it's own terminal window.
+
+```
+gulp sass:watch &
+```
