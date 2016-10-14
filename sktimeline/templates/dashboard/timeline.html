@@ -1,0 +1,165 @@
+{% extends "base/content_base_fullwidth.html" %}
+
+{% block nav_right %}
+  <li><a href="/">Home</a></li>
+  <li class=active><a href="/dashboard/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
+{% endblock %}
+
+{% block styles %}
+  {{super()}}
+  <link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/3.3.16/css/timeline.css">
+  <link rel="stylesheet" href="/static/css/emoji.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+
+  <script src="https://cdn.knightlab.com/libs/timeline3/3.3.16/js/timeline.js"></script>
+  <script src="/static/js/emoji.js"></script>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+  jQuery(document).ready(function(){
+    var feed_data = {{feed_groups_data|safe}};
+    var feed_groups = {{feed_groups|safe}};
+    var $timelineDiv = $('#timeline');
+
+
+    var emoji = new EmojiConvertor(); // force text output mode
+    emoji.text_mode = false;
+    emoji.include_title = true;
+    emoji.use_sheet = false
+    emoji.img_set = 'emojione';
+    emoji.img_sets.emojione.path = '/static/media/emoji-data/img-emojione-64/';
+    $.each(feed_data, function(id, items){
+      if ( id.includes('slack-') ){
+        $.each(items, function(i, value){
+          value.text.text = emoji.replace_colons( value.text.text );
+        });
+      }
+    });
+
+    function drawTimeline( groups , search_text ) {
+      // groups is the array of which timeline groups to show on this draw of the timeline
+      $timelineDiv.children().remove();
+      window.timeline = false;
+      var events = filterEvents( groups, search_text );
+      if ( events.length ) {
+        window.timeline = new TL.Timeline( $timelineDiv.attr('id') , { events: events } );
+      } else {
+        $timelineDiv
+          .removeAttr('class')
+          .html( '<p class="container">No events matched your current filter criteria</p>');
+      }
+
+    }
+
+    function filterEvents(groups, search_text) {
+      var selected_groups_data = $.map(feed_data, function(data, key){
+        if ( $.inArray(key, groups) != -1 ) {
+          return data;
+        }
+      });
+      if ( search_text ) {
+        search_text = search_text.toLowerCase().split(/\s+/);
+
+        selected_groups_data = $.map(selected_groups_data, function(data, key){
+          var foundTextData = false;
+          for (var i = 0; i < search_text.length; i++) {
+              var text = search_text[i];
+              if ( data.type == 'twitter' ){
+                if ( data.tweet_text.toLowerCase().indexOf(text) != -1 ) {
+                  foundTextData = data;
+                }
+              } else if ( data.text.text.toLowerCase().indexOf(text) != -1 ){
+                foundTextData = data;
+              } else if ( data.text.headline && data.text.headline.toLowerCase().indexOf(text) != -1 ) {
+                foundTextData = data;
+              }
+              if ( foundTextData ) {
+                // one of the search text strings was found - break from for loop, do not search for other strings in the array
+                break;
+              }
+          }
+          if ( foundTextData ) {
+            return foundTextData; // return of the map function,
+          }
+
+        });
+      }
+      return selected_groups_data;
+    }
+
+
+
+    drawTimeline( $.map(feed_groups, function(group){ return group.id }) );
+
+    if ( feed_groups.length > 1 ) {
+      $('#timeline-select').select2({
+        closeOnSelect: true,
+        data: $.map(feed_groups, function(group, i){
+          group.selected = true;
+          return group;
+        }),
+        templateResult: function(data, container){
+          $(container).attr('data-title', data.text)
+          return data.text;
+        }
+        // todo: see if can make a minimum 1 must always be selected otherwise timeline is blank
+      }).on('change', timelineRedrawSelectedGroups)
+        .on('select2:unselecting', function(e){
+          $('body').addClass('tl-unselecting');
+        })
+        .on('select2:unselect', function(e){
+
+          setTimeout(function(){
+            /* hack to close the select box and it is already hidden via CSS the body.tl-unselecting class */
+            $(e.target).select2('close');
+            $('body').removeClass('tl-unselecting');
+          }, 10);
+        });
+
+    } else {
+      $('#timeline-select-container').hide();
+    }
+
+    function timelineRedrawSelectedGroups(){
+      var groups = $('#timeline-select').val(),
+        filterText = $.trim( $('#search').val() ),
+        filterText = (filterText != '') ? filterText : false,
+        current_id = window.timeline.current_id;
+
+
+      drawTimeline( groups, filterText );
+      if ( window.timeline && window.timeline.ready ){
+        window.timeline.goToId(current_id); // go to last selected slide after reiniting
+      }
+      return true;
+    }
+
+    var filterTimeout = false;
+    $('#search').on('keyup', function(e) {
+      var $t = $(this);
+      clearTimeout( filterTimeout );
+      filterTimeout = setTimeout( timelineRedrawSelectedGroups, 500 );
+    });
+
+  });
+
+  </script>
+{% endblock %}
+
+{% block content_base %}
+  <div id="timeline-select-container" class="container">
+    <select style="width:100%;" id="timeline-select" multiple="multiple"></select>
+  </div>
+  <form id="timeline-text-filter" class="container">
+    <div class="form-group">
+      <label for="search" class="sr-only">Search</label>
+      <input type="text" class="form-control" id="search" placeholder="Filter timeline items">
+      <!-- <button type="submit" class="btn btn-default" id="filter-submit">Filter</button> -->
+    </div>
+
+  </form>
+  <div id="timeline"></div>
+{% endblock %}

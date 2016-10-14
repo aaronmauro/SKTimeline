@@ -1,0 +1,257 @@
+// Globals
+
+// Links
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+// Custom default button */
+.btn-default,
+.btn-default:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+// margin helpers */
+
+.margin-top-10 {
+  margin-top:10px;
+}
+
+
+// Base structure
+html,
+body {
+  height: 100%;
+  background-color: #333;
+}
+body {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+#wrap {
+  min-height: 100%;
+}
+#main {
+  overflow:auto;
+  padding-bottom:50px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+  position: relative;
+  margin-top: -50px; /* negative value of footer height */
+  height: 50px;
+  clear:both;
+  padding-top:20px;
+  text-align: center;
+}
+
+
+//* Model Styles */
+
+.modal-body {
+    color:black;
+    text-shadow: none; /* Prevent inheritence from `body` */
+}
+
+.modal-title {
+    color:black;
+    text-shadow: none; /* Prevent inheritence from `body` */
+}
+
+.logos {
+    height: 100px;
+    width: 100px;
+}
+
+.modalText {
+    padding: 5%;
+}
+
+//* Padding for spacing */
+.inner {
+  padding: 30px;
+}
+
+// Cover
+.cover {
+  padding: 0 20px;
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+// timeline styles
+$tweet_color: #1a8bf0;
+$slack_color: #d9176a;
+$github_color: #333333;
+
+#timeline-select-container {
+  margin-bottom: 10px;
+
+  .select2 {
+    * {
+      text-shadow: none !important;
+    }
+
+    .select2-selection.select2-selection--multiple {
+      cursor: pointer;
+    }
+
+    .select2-selection__choice {
+      background-color: $github_color;
+      padding:5px 10px;
+      color: #fff;
+      span {
+        color: #fff;
+      }
+
+      &[title^=Slack] {
+        background-color: $slack_color;
+      }
+      &[title^=GitHub] {
+        background-color: $github_color;
+      }
+      &[title^=Twitter] {
+        background-color: $tweet_color;
+      }
+    }
+
+  }
+}
+.select2-container .select2-dropdown {
+  * {
+    text-shadow: none !important;
+  }
+  .select2-results__option {
+    color: #fff;
+    padding: 10px;
+
+    &[aria-selected=true] {
+      display:none;
+    }
+
+    &[data-title^=Slack] {
+      background-color: $slack_color;
+      &.select2-results__option--highlighted {
+        background-color: lighten($slack_color, 10%);
+      }
+    }
+    &[data-title^=GitHub] {
+      background-color: $github_color;
+      &.select2-results__option--highlighted {
+        background-color: lighten($github_color, 10%);
+      }
+    }
+    &[data-title^=Twitter] {
+      background-color: $tweet_color;
+      &.select2-results__option--highlighted {
+        background-color: lighten($tweet_color, 10%);
+      }
+    }
+
+  }
+}
+
+body.tl-unselecting {
+  // this is a hack to prevent the select2 dropdown from displaying when unselecting
+  // an item
+  > .select2-container--open {
+    display:none;
+  }
+}
+
+#timeline {
+  height: 700px;
+  height: 87.5vh;
+
+  * {
+    text-shadow: none !important; // remove text shaddow from all the things
+  }
+  .tl-media .tl-media-twitter blockquote p {
+    font-size:18px; // slightly smaller than the default wiht is 24px;
+  }
+  .tl-timegroup .tl-timegroup-message {
+    // group name of each timeline group - darken for readability
+    color:#a6a6a6;
+  }
+}
+
+@mixin timeline_marker($id, $color) {
+  &[id^="#{$id}"] {
+
+    .tl-timemarker-content-container {
+      background-color:$color;
+    }
+
+    &.tl-timemarker-active .tl-timemarker-content-container {
+      background-color: lighten($color,12.5%);
+    }
+
+    // need these ultra specfic selectors to override the css included via the timeline: compiles to div.tl-timemarker[id^="tweet"].tl-timemarker-active .tl-timemarker-content [...]
+    &.tl-timemarker-active .tl-timemarker-content,
+    .tl-timemarker-content .tl-timemarker-media-container [class^=tl-icon-],
+    .tl-timemarker-text h2.tl-headline,
+    .tl-timemarker-text h2.tl-headline p {
+        color: #fff !important;
+    }
+  }
+}
+
+div.tl-slide {
+  .tl-slide-content .tl-text:before,
+  .tl-slide-content .tl-media-twitter:before {
+      content: '';
+      display:inline-block;
+      background-size:cover;
+      width: 64px;
+      height: 64px;
+      position:relative;
+      top:-10px;
+  }
+
+  &[id^="slack"] .tl-slide-content .tl-text:before {
+    background-image: url(../media/logos/slack.png);
+  }
+  &[id^="github"] .tl-slide-content .tl-text:before {
+    background-image: url(../media/logos/github.png);
+  }
+  &[id^="tweet"] .tl-slide-content .tl-media-twitter:before{
+    background-image: url(../media/logos/twitter.png);
+  }
+
+}
+
+div.tl-timemarker {
+  @include timeline_marker('tweet', $tweet_color);
+  @include timeline_marker('slack', $slack_color);
+  @include timeline_marker('github', $github_color);
+}
+
+//Affix and center
+
+@media (min-width: 768px) {
+  // Pull out the header and footer */
+  // Start the vertical centering */
+  .site-wrapper-inner {
+    vertical-align: middle;
+  }
+  // Handle the widths */
+  .cover-container {
+    width: 100%; // Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px;
+  }
+}

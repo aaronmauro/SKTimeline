@@ -1,0 +1,30 @@
+{% extends "base/content_base.html" %}
+
+{% block content_base %}
+
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="page-header">
+      <h2>Login</h2>
+    </div>
+
+    <div class="bs-callout bs-callout-info">
+      <p>Need an account? <a class="btn-sm btn-default btn" href="/register">Sign up! </a>
+    </div>
+
+    <form class="form-inline" method="post">
+      <div class="form-group">
+        <label for="username" class="sr-only">Username</label>
+    		<input type="text" class="form-control" placeholder="Username" name="username" id="username" value="{{request.form.username}}">
+      </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="password" id="password" value="{{request.form.password}}">
+      </div>
+  		<input class="btn btn-default" class="btn btn-default" type="submit" value="Login">
+  	</form>
+
+  </div>
+</div>
+{% endblock %}

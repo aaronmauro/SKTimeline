@@ -1,0 +1,26 @@
+{% extends "base/content_base.html" %}
+{% block content_base %}
+
+<div class="row">
+  <div class="col-md-6">
+
+    <form method=post>
+          {{ wtf.form_errors(form, hiddens="only") }}
+          {{wtf.form_field(form.username)}}
+          {{wtf.form_field(form.project)}}
+
+          {{wtf.form_field(form.branch)}}
+          <p><em>if no branch is given, will use master branch</em></p>
+
+        <div class="form-group">
+          {% if edit %}
+            <input class="btn btn-danger" type=submit name="delete" value="Delete">
+          {% else %}
+            <input class="btn btn-default" type=submit value="Add">
+          {% endif %}
+        </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

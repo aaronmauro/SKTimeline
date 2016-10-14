@@ -1,0 +1,18 @@
+{% extends "base/content_base.html" %}
+{% block content_base %}
+
+<div class="row">
+  <div class="col-md-6">
+
+    <form method=post>
+          {{ wtf.form_errors(form, hiddens="only") }}
+          {{wtf.form_field(form.channel)}}
+
+        <div class="form-group">
+            <input class="btn btn-default" type=submit value="Select Channel">
+        </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

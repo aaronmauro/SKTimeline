@@ -1,0 +1,15 @@
+Flask
+MySQL-python
+Flask-WTF
+flask_mail
+passlib
+Flask-SQLAlchemy
+Flask-Bootstrap
+tweepy>=3.0
+schedule
+PyGithub
+python-dateutil
+slackclient
+flask_script
+flask_migrate
+markdown

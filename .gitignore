@@ -1,0 +1,19 @@
+
+*.pyc
+
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+.DS_Store
+#instance config as described http://exploreflask.readthedocs.io/en/latest/organizing.html
+instance/config.py
+node_modules

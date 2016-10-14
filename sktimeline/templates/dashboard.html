@@ -1,0 +1,130 @@
+{% extends "base/content_base.html" %}
+
+
+{% block nav_right %}
+  <li><a href="/">Home</a></li>
+  <li class=active><a href="/dashboard/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
+{% endblock %}
+
+
+{% block content_base %}
+<div role="tabpanel">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active"><a href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab">Twitter</a></li>
+        <li role="presentation"><a href="#slack" aria-controls="slack" role="tab" data-toggle="tab">Slack</a></li>
+        <li role="presentation"><a href="#github" aria-controls="github" role="tab" data-toggle="tab">GitHub</a></li>
+    </ul>
+
+    <!-- Slack -->
+    <div class="tab-content">
+        <!-- Twitter -->
+        <div role="tabpanel" class="tab-pane fade in active" id="twitter">
+            <h2>Twitter Settings</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <!-- <th scope=col>Handle</th> -->
+                        <th scope=col>Hashtag</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in twitter_settings %}
+                        <tr>
+                            <!-- <td>{{s.handle}}</td> -->
+                            <td>{{s.hashtag}}</td>
+                            <td>
+                              <form method="post" action="/dashboard/twitter/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+            <a class="btn btn-default block" href="/dashboard/twitter/new">Add Twitter Hashtag</a>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="slack">
+            <h2>Slack Settings</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope=col>Team</th>
+                        <th scope=col>Channel</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in slack_settings %}
+                        <tr>
+                            <td>{{s.team_name}}</td>
+                            <td>{{s.channel_name}}</td>
+                            <td>
+                              <form method="post" action="/dashboard/slack/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+            <form method="post" action="/dashboard/slack/start_auth">
+              <!-- todo: these should have some form csrf tokens? -->
+              <input type="submit" class="btn btn-default block" value="Add Slack Channel" />
+            </form>
+
+
+        </div>
+        <!-- GitHub -->
+        <div role="tabpanel" class="tab-pane fade" id="github">
+            <h2>GitHub Settings</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope=col>Username</th>
+                        <th scope=col>Project</th>
+                        <th scope=col>Branch</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tbody>
+                        {% for s in github_settings %}
+                        <tr>
+                            <td>{{s.username}}</td>
+                            <td>{{s.project}}</td>
+                            <td>{{s.branch}}</td>
+                            <td>
+                              <form method="post" action="/dashboard/github/delete/{{s.id}}">
+                                <input class="btn btn-sm btn-default" type="submit" value="Delete"  />
+                              </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+            <a class="btn btn-default block" href="/dashboard/github/new">Add GitHub Project</a>
+        </div>
+
+    </div>
+    <div>
+      <p class="margin-top-10"><a class="btn btn-default" href="/dashboard/timeline">View Timeline</a> </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+(function(){
+  if ( ! window.location.hash ) {
+    return;
+  }
+  // if hash is present trigger that tab
+  $('a[data-toggle="tab"]').filter('[href="' +window.location.hash + '"]').trigger('click');
+})();
+</script>
+
+{% endblock %}
