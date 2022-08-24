@@ -1,8 +1,6 @@
 # SKTimeline
 ### The missing link for teams working with collaboration platforms, social media, and version control.
 
-##### A development version of this tool is available at the <a href="http://162.243.121.195">SKTimeline</a> site. Feel free to register an account and see a sample system in action.
-
 ## Features
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Slack_CMYK.svg/1000px-Slack_CMYK.svg.png" width="200">
